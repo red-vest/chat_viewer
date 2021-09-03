@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/.idea/
+/chat-viewer/
+/chat-viewer.7z

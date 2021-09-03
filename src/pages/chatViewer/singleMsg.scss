@@ -1,0 +1,22 @@
+.singleMsg{
+  margin-bottom: 10px;
+  .tag{
+    display: inline-block;
+    border-radius: 5px;
+    width: 40px;
+    height: 20px;
+    background: #2b3fff;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 5px;
+  }
+  p{
+    margin: 0;
+    padding: 0;
+    display: inline;
+  }
+  .userName{
+    color: #8c8c8c;
+  }
+}
