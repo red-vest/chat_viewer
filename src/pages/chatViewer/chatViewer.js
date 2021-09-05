@@ -111,7 +111,9 @@ class ChatViewer extends React.Component {
   }
   async getCourseList(){
     let result = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list?course_status=1&is_close=1')
-    let list = result.data.data;
+    let resultT = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list?course_status=1&is_close=2')
+    let list = [...result.data.data,...resultT.data.data];
+    // console.log(list.length)
     list.forEach(item=>{
       item.name = item.Id+'-'+item.CourseName
     })
@@ -120,7 +122,6 @@ class ChatViewer extends React.Component {
   }
 
   async changeCourse(e){
-    console.log(e)
     let result = await Axios.post('https://api.xtjzx.cn/index',{
       operationName: "chapterListCached",
       query: "↵    query chapterListCached($courseId:Long){↵        chapterListCached(input:{courseId: $courseId}){↵" +
