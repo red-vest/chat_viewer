@@ -1,0 +1,2477 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: QueryType
+}
+
+type QueryType {
+    CategoryList: course_CategoryListResponse
+    CourseCategoryList(input: Input_google_protobuf_Empty): customer_CourseCategoryResp
+    CourseNoticeInfo(input: Input_course_CourseNoticeRequest): course_CourseNoticeResponse
+    GetCourseVideo(input: Input_video_CourseVideoRequest): video_CourseVideoResponse
+    SayHello(input: Input_helloworld_HelloRequest): helloworld_HelloReply
+    TeacherList(input: Input_teacher_TeacherListReq): teacher_TeacherListResp
+    WatchCourseScheduleReq(input: Input_customer_WatchCourseScheduleReq): customer_WatchCourseScheduleResp
+    WatchCourseScheduleResp(input: Input_customer_WatchCourseScheduleReq): customer_WatchCourseScheduleResp
+    addCourseCategory(input: Input_customer_AddCourseCategoryReq): customer_AddCourseCategoryResp
+    addMyCourse(input: Input_customer_AddMyCourseReq): customer_AddMyCourseResp
+    addSearchHistory(input: Input_customer_AddSearchReq): customer_AddSearchResp
+    addWatchCourseHistory(input: Input_customer_AddWatchCourseHistoryReq): customer_AddWatchCourseHistoryResp
+    chapterList(input: Input_course_ChapterListRequest): course_CourseChapterResponse
+    chapterListCached(input: Input_course_ChapterListRequest): course_CourseChapterResponse
+    courseCategoryList(input: Input_google_protobuf_Empty): customer_CourseCategoryResp
+    courseInfoSearch(input: Input_course_CourseInfoSearchRequest): course_CourseInfoResponse
+    courseList(input: Input_course_CourseInfoListPageRequest): course_CourseInfoListResponse
+    courseSearchByKeywordBetter(input: Input_course_CourseSearchRequest): course_SearchCourseInfoListResponse
+    courseSearcheByKeyword(input: Input_course_CourseSearchRequest): course_SearchCourseInfoListResponse
+    getCourseVideo(input: Input_video_CourseVideoRequest): video_CourseVideoResponse
+    getCourseVideo_donotuseme(input: Input_video_CourseVideoRequest): video_CourseVideoResponse
+    handoutList(input: Input_course_HandoutListRequest): course_HandoutLists
+    hideMyCourse(input: Input_customer_HideReq): customer_HideResp
+    hotSearchList(input: Input_google_protobuf_Empty): customer_HotSearchResp
+    isAddMyCourse(input: Input_customer_IsAddMyCourseReq): customer_IsAddMyCourseResp
+    isStarCourse(input: Input_customer_IsStarCourseReq): customer_IsStarCourseResp
+    myCourseCategoryList(input: Input_google_protobuf_Empty): customer_MyCourseCategoryResp
+    myCourseList(input: Input_customer_MyCourseReq): customer_MyCourseResp
+    myHideCourseList(input: Input_customer_HideListReq): customer_HideListResp
+    searchHistoryList(input: Input_google_protobuf_Empty): customer_SearchHistoryResp
+    searchMyCourse(input: Input_customer_SearchReq): customer_MyCourseResp
+    searchMyCourseList(input: Input_customer_SearchReq): customer_SearchResp
+    starCourse(input: Input_customer_StarCourseReq): customer_StarCourseResp
+    starCourseList(input: Input_customer_StarCourseListReq): customer_StarCourseListResp
+    starTeacherScore(input: Input_teacher_StarTeacherScoreReq): teacher_StarTeacherScoreResp
+    teacherAverageScore(input: Input_teacher_TeacherAverageScoreReq): teacher_TeacherAverageScoreResp
+    teacherInfo(input: Input_teacher_TeacherInfoReq): teacher_TeacherInfoResp
+    teacherList(input: Input_teacher_TeacherListReq): teacher_TeacherListResp
+    teacherScore(input: Input_teacher_TeacherScoreReq): teacher_TeacherScoreResp
+    teacherScoreList(input: Input_teacher_TeacherScoreListReq): teacher_TeacherScoreListResp
+    topMyCourse(input: Input_customer_TopReq): customer_TopResp
+    unStarCourse(input: Input_customer_UnStarCourseReq): customer_UnStarCourseResp
+    watchCourseCategoryList(input: Input_google_protobuf_Empty): customer_MyCourseCategoryResp
+    watchCourseHistoryList(input: Input_customer_WatchCourseHistoryReq): customer_WatchCourseHistoryResp
+}
+
+type base_Status {
+    "RPC响应状态码，成功状态码为0，错误状态码自行定义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+type course_CategoryCreateRequest {
+    "分类名称"
+    categoryName: String
+    "分类排序"
+    sort: Int
+    "分类隐藏状态 0显示，1影藏"
+    status: Int
+}
+
+type course_CategoryInfo {
+    "分类名称"
+    categoryName: String
+    "分类id"
+    id: Long
+    "分类排序"
+    sort: Int
+    "分类隐藏状态 0显示，1影藏"
+    status: Int
+}
+
+type course_CategoryListResponse {
+    "分类列表"
+    cateList: [course_CategoryInfo]
+    status: course_CategoryStatus
+}
+
+type course_CategorySearchRequest {
+    _: String
+}
+
+type course_CategoryStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+type course_CategorySuccessResponse {
+    status: course_CategoryStatus
+}
+
+type course_ChapterHandoutResponse {
+    "章节名称"
+    chapterName: String
+    handout: [course_HandoutResponse]
+    "排序"
+    sort: Int
+}
+
+type course_ChapterInfo {
+    "章节名称"
+    chapterName: String
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "章节id"
+    id: Long
+    "章节排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+}
+
+type course_ChapterInfoRequest {
+    "章节id"
+    chapterId: Long
+}
+
+type course_ChapterLessonInfo {
+    "章节id"
+    chapterId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "课节id"
+    id: Long
+    "播放状态1:直播中  2:未开播  3:已播完  4:可回放"
+    liveStatus: Int
+    "课节名称"
+    name: String
+    "开课时间"
+    openTime: String
+    "排序"
+    sort: Int
+    "老师id"
+    teacherId: Long
+    teacherInfo: teacher_TeacherMapResp_TeacherInfo
+    teacherInfo2: teacher_TeacherListResp_TeacherInfo
+    "更新时间"
+    updatedAt: String
+}
+
+type course_ChapterLessonResponse {
+    "章节id"
+    chapterId: Long
+    "已归档的聊天历史"
+    chatHistory: String
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "回放视频时长"
+    duration: String
+    "高清size"
+    highQualitySize: Float
+    "高清url"
+    highQualityUrl: String
+    "课节id"
+    id: Long
+    keyFrame: course_VideoKeyframeInfo
+    "播放状态1:直播中  2:未开播  3:已播完  4:可回放"
+    liveStatus: Int
+    "低清晰度size"
+    lowQualitySize: Float
+    "低清晰度url"
+    lowQualityUrl: String
+    "课节名称"
+    name: String
+    "中等清晰度size"
+    normalQualitySize: Float
+    "中等清晰度url"
+    normalQualityUrl: String
+    "开课时间"
+    openTime: String
+    "排序"
+    sort: Int
+    "老师id"
+    teacherId: Long
+    teacherName: String
+    "更新时间"
+    updatedAt: String
+    videoDownload: course_VideoDownload
+}
+
+type course_ChapterListRequest {
+    "课程id"
+    courseId: Long
+}
+
+type course_ChapterMapRequest {
+    courseIds: [Long]
+}
+
+type course_ChapterResponse {
+    "课节列表"
+    chapterLesson: [course_ChapterLessonResponse]
+    "章节名称"
+    chapterName: String
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "章节id"
+    id: Long
+    "章节排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+}
+
+type course_ChapterStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+type course_ChapterSuccessResponse {
+    status: course_ChapterStatus
+}
+
+type course_CourseChapterMapResponse {
+    chapterInfoMap: [course_CourseChapterMapResponse_ChapterInfoMapEntry]
+    status: course_ChapterStatus
+}
+
+type course_CourseChapterMapResponse_ChapterInfoMapEntry {
+    key: Long
+    value: course_CourseChapterResponse
+}
+
+type course_CourseChapterResponse {
+    chapter: [course_ChapterResponse]
+    status: course_ChapterStatus
+}
+
+type course_CourseIdListResponse {
+    courseId: [Long]
+    status: course_InfoStatus
+}
+
+type course_CourseInfoListPageRequest {
+    "地区编码"
+    areaCode: Long
+    "分类id"
+    categoryId: Long
+    page: Long
+    size: Long
+}
+
+type course_CourseInfoListResponse {
+    courseCategory(input: Input_course_CategorySearchRequest): course_CategoryListResponse
+    courseInfoList: [course_CourseInfoResponse]
+    status: course_InfoStatus
+}
+
+type course_CourseInfoListSearchRequest {
+    "地区编码"
+    areaCode: Long
+    "分类id"
+    categoryId: Long
+}
+
+type course_CourseInfoMapResponse {
+    courseInfoList: [course_CourseInfoMapResponse_CourseInfoListEntry]
+    status: course_InfoStatus
+}
+
+type course_CourseInfoMapResponse_CourseInfoListEntry {
+    key: Long
+    value: course_CourseInfoResponse
+}
+
+type course_CourseInfoRequest {
+    courseInfo: course_CourseInfos
+    sort: Int
+}
+
+type course_CourseInfoResponse {
+    "区"
+    area: Long
+    "banner图"
+    bannerImg: String
+    "价格"
+    buyPrice: Float
+    "课程分类ID"
+    categoryId: Long
+    "市"
+    city: Long
+    "城市名称"
+    cityName: String
+    "结束时间"
+    closeTime: String
+    "课程时长"
+    courseHour: String
+    "课程名称"
+    courseName: String
+    "标签"
+    courseTag: String
+    "1:直播课 2:录播课 3:地面课 4:活动课 5:可回放"
+    courseType: Int
+    "封面图"
+    coverImg: String
+    "扩展关键词"
+    expandKeyword: String
+    "第一章开课时间"
+    firstOpenTime: String
+    "热度"
+    hot: Long
+    "课程id"
+    id: Long
+    "介绍"
+    intro: String
+    "视频状态 1直播中 2录播课 3可回放 4未开播"
+    liveStatus: Long
+    "自定义设置开课时间展示"
+    manualOpenTime: String
+    "开课时间"
+    openTime: String
+    "省"
+    province: Long
+    status: course_InfoStatus
+    teacherInfos: [teacher_TeacherMapResp_TeacherInfo!]
+    "讲师"
+    teachers: String
+    "标签"
+    titleHot: String
+    "置顶 0不置顶，1置顶"
+    top: Long
+    "微信分享课程封面图"
+    wxShareImg: String
+}
+
+type course_CourseInfoSearchByIdsRequest {
+    "课程ids"
+    ids: [Long]
+}
+
+type course_CourseInfoSearchRequest {
+    "课程id"
+    id: Long
+}
+
+type course_CourseInfos {
+    "区"
+    area: Long
+    "banner图"
+    bannerImg: String
+    "课程分类ID"
+    categoryId: Long
+    "市"
+    city: Long
+    "城市名称"
+    cityName: String
+    "结束时间"
+    closeTime: String
+    "课程时长"
+    courseHour: String
+    "课程名称"
+    courseName: String
+    "标签"
+    courseTag: String
+    "1:直播课 2:录播课 3:地面课 4:活动课 5:可回放"
+    courseType: Int
+    "封面图"
+    coverImg: String
+    "扩展关键词"
+    expandKeyword: String
+    "热度"
+    hot: Long
+    "课程id"
+    id: Long
+    "介绍"
+    intro: String
+    "自定义设置开课时间展示"
+    manualOpenTime: String
+    "开课时间"
+    openTime: String
+    "省"
+    province: Long
+    "讲师"
+    teachers: String
+    "标签"
+    titleHot: String
+    "置顶 0不置顶，1置顶"
+    top: Long
+    "微信分享课程封面图"
+    wxShareImg: String
+}
+
+type course_CourseLessonListResponse {
+    chapterLesson: [course_ChapterLessonInfo]
+    status: course_ChapterStatus
+}
+
+type course_CourseLessonMapResponse {
+    chapterLesson: [course_CourseLessonMapResponse_ChapterLessonEntry]
+    status: course_ChapterStatus
+}
+
+type course_CourseLessonMapResponse_ChapterLessonEntry {
+    key: Long
+    value: course_ChapterLessonInfo
+}
+
+type course_CourseLessonResponse {
+    chapterLesson: course_ChapterLessonInfo
+    status: course_ChapterStatus
+}
+
+type course_CourseLive {
+    chatRoomid: Long
+    lessonId: Long
+    livePushStreamUrl: String
+    livehouseId: Long
+    playUrl: String
+}
+
+type course_CourseNoticeMapResponse {
+    noticeInfo: [course_CourseNoticeMapResponse_NoticeInfoEntry]
+    status: course_NoticeStatus
+}
+
+type course_CourseNoticeMapResponse_NoticeInfoEntry {
+    key: Long
+    value: course_NoticeInfo
+}
+
+type course_CourseNoticeRequest {
+    "课程id"
+    id: Long
+}
+
+type course_CourseNoticeResponse {
+    noticeInfo: course_NoticeInfo
+    status: course_NoticeStatus
+}
+
+type course_CourseNoticeSuccessResponse {
+    status: course_NoticeStatus
+}
+
+type course_CourseSearchRequest {
+    keyword: String
+    pageNum: Long
+    pageSize: Long
+}
+
+type course_CourseSort {
+    categoryId: Long
+    courseId: Long
+    sort: Long
+}
+
+type course_CourseSortListResponse {
+    courseSort: [course_CourseSort]
+    status: course_InfoStatus
+}
+
+type course_CourseSortResponse {
+    "分类id"
+    categoryId: Long
+    "课程id"
+    courseId: Long
+    courseList: [course_CourseInfoResponse]
+}
+
+type course_CourseSuccessResponse {
+    status: course_InfoStatus
+}
+
+type course_CourseVideo {
+    chatHistory: String
+    highQualityUrl: String
+    id: Long
+    lessonId: String
+    lowQualityUrl: String
+    normalQualityUrl: String
+    remark: String
+}
+
+type course_HandoutListRequest {
+    "课程id"
+    courseId: Long
+}
+
+type course_HandoutListResponse {
+    handoutList: [course_ChapterHandoutResponse]
+    status: course_HandoutStatus
+}
+
+type course_HandoutLists {
+    handoutList: [course_ChapterHandoutResponse]
+}
+
+type course_HandoutMapResponse {
+    handoutList: [course_HandoutMapResponse_HandoutListEntry]
+    status: course_HandoutStatus
+}
+
+type course_HandoutMapResponse_HandoutListEntry {
+    key: Long
+    value: course_HandoutLists
+}
+
+type course_HandoutRequest {
+    "章节id"
+    chapterId: Long
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "资料类型 1、课程讲义;2、课程答案及课堂笔记;3、模考试卷;4、其他资料"
+    handoutType: Int
+    "资料id"
+    id: Long
+    "资料名称"
+    name: String
+    "排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+    "链接地址"
+    url: String
+}
+
+type course_HandoutResponse {
+    "章节id"
+    chapterId: Long
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "资料类型 1、课程讲义;2、课程答案及课堂笔记;3、模考试卷;4、其他资料"
+    handoutType: Int
+    "资料id"
+    id: Long
+    "资料名称"
+    name: String
+    "文件大小"
+    size: String
+    "文件字节大小"
+    sizeByte: Long
+    "排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+    "链接地址"
+    url: String
+}
+
+type course_HandoutStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+type course_HandoutSuccessResponse {
+    status: course_HandoutStatus
+}
+
+type course_InfoStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+type course_KeyframeDesc {
+    "描述"
+    desc: String
+    "time 时间节点/秒"
+    time: Long
+    "链接类型 1图片 2视频"
+    type: Int
+    "链接"
+    url: String
+}
+
+type course_LessonInfoRequest {
+    "课节id"
+    lessonId: Long
+}
+
+type course_LessonListRequest {
+    "课节ids"
+    lessonIds: [Long]
+}
+
+type course_NoticeInfo {
+    "公告内容"
+    content: String
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "公告"
+    id: Long
+    "更新时间"
+    updatedAt: String
+}
+
+type course_NoticeStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+type course_SearchCourseIdsResponse {
+    count: Long
+    courseId: [Long]
+    status: course_InfoStatus
+}
+
+type course_SearchCourseInfoListResponse {
+    count: Long
+    courseInfoList: [course_CourseInfoResponse]
+    status: course_InfoStatus
+}
+
+type course_TeacherIdsResponse {
+    status: course_InfoStatus
+    teacherIds: [Long]
+}
+
+type course_VideoDownload {
+    "已归档的聊天历史"
+    chatHistory: String
+    "高清size"
+    highQualitySize: Float
+    "高清url"
+    highQualityUrl: String
+    "低清晰度size"
+    lowQualitySize: Float
+    "低清晰度url"
+    lowQualityUrl: String
+    "中等清晰度size"
+    normalQualitySize: Float
+    "中等清晰度url"
+    normalQualityUrl: String
+}
+
+type course_VideoKeyframeInfo {
+    id: Long
+    keyframeDesc: [course_KeyframeDesc]
+    "课节id"
+    lessonId: Long
+    "上传类型 1人工 2自动"
+    type: Int
+}
+
+type course_VideoKeyframeResponse {
+    status: course_ChapterStatus
+    videoKeyframe: [course_VideoKeyframeResponse_VideoKeyframeEntry]
+}
+
+type course_VideoKeyframeResponse_VideoKeyframeEntry {
+    key: Long
+    value: course_VideoKeyframeInfo
+}
+
+type customer_AddCourseCategoryReq {
+    "选中 课程分类 ID (1,2,3,4)"
+    courseCategoryId: String
+}
+
+type customer_AddCourseCategoryResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_AddMyCourseReq {
+    "老师 头像"
+    avatars: String
+    "结束时间"
+    closeTime: String
+    "课程ID"
+    courseId: Long
+    "课程名称"
+    courseName: String
+    "开始时间"
+    openTime: String
+}
+
+type customer_AddMyCourseResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_AddSearchReq {
+    "搜索内容"
+    search: String
+}
+
+type customer_AddSearchResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_AddWatchCourseHistoryReq {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "看课时长"
+    duration: Int
+    "课程章节 ID"
+    lessonId: Long
+    "视频总时长"
+    totalDuration: Int
+}
+
+type customer_AddWatchCourseHistoryResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_CourseCategoryResp {
+    category(input: Input_course_CategorySearchRequest): course_CategoryListResponse
+    "课程分类 ID"
+    courseCategoryId: [String]
+    "状态"
+    status: base_Status
+}
+
+type customer_HideListReq {
+    "当前页"
+    cursorPrev: Int
+}
+
+type customer_HideListResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "隐藏课程章节列表"
+    hideCourseList: [customer_HideListResp_HideCourse]
+    "状态"
+    status: base_Status
+}
+
+type customer_HideListResp_HideCourse {
+    "课程 ID"
+    courseId: Long
+    courseInfo: course_CourseInfoResponse
+    "收藏课程ID"
+    id: Long
+    video: video_CourseVideoResponse
+}
+
+type customer_HideReq {
+    "老师 头像"
+    avatars: String
+    "结束时间"
+    closeTime: String
+    "课程分类ID"
+    courseCategoryId: Int
+    "课程ID"
+    courseId: Long
+    "课程名称"
+    courseName: String
+    "我的课程 ID"
+    id: Long
+    "是否隐藏   true : 隐藏  false ：取消隐藏"
+    isHide: Boolean
+    "开始时间"
+    openTime: String
+}
+
+type customer_HideResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_HotSearchResp {
+    "用户热搜"
+    hotSearch: [String]
+    "状态"
+    status: base_Status
+}
+
+type customer_IsAddMyCourseReq {
+    "课程 ID"
+    courseId: Long
+}
+
+type customer_IsAddMyCourseResp {
+    "true 已添加，false 没添加"
+    isAdd: Boolean
+    "状态"
+    status: base_Status
+}
+
+type customer_IsStarCourseReq {
+    "课程章节 ID"
+    lessonId: Long
+}
+
+type customer_IsStarCourseResp {
+    "true 已收藏，false 没收藏"
+    isStar: Boolean
+    "状态"
+    status: base_Status
+}
+
+type customer_MyCourseCategoryResp {
+    "课程分类 ID"
+    courseCategoryId: [Int]
+    "状态"
+    status: base_Status
+}
+
+type customer_MyCourseReq {
+    "课程分类 ID"
+    courseCategoryId: Int
+    "当前页"
+    cursorPrev: Int
+}
+
+type customer_MyCourseResp {
+    "我的课程列表"
+    course: [customer_MyCourseResp_Course]
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "状态"
+    status: base_Status
+}
+
+type customer_MyCourseResp_Course {
+    "课程ID"
+    courseId: Long
+    courseInfo: course_CourseInfoResponse
+    "id"
+    id: Long
+    "置顶时间"
+    topAt: String
+}
+
+type customer_SearchHistoryResp {
+    "用户搜索历史"
+    search: [String]
+    "状态"
+    status: base_Status
+}
+
+type customer_SearchReq {
+    "当前页"
+    cursorPrev: Int
+    "搜索内容"
+    search: String
+}
+
+type customer_SearchResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "我的课程列表 ids"
+    myEsCourse: [customer_SearchResp_MyESCourse]
+    "状态"
+    status: base_Status
+}
+
+type customer_SearchResp_MyESCourse {
+    "老师 头像"
+    avatars: String
+    "结束时间"
+    closeTime: String
+    "课程ID"
+    courseId: Long
+    "课程名称"
+    courseName: String
+    "我的课程列表 id"
+    id: Long
+    "开始时间"
+    openTime: String
+}
+
+type customer_StarCourseListReq {
+    "当前页"
+    cursorPrev: Int
+}
+
+type customer_StarCourseListResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "收藏课程章节列表"
+    starCourseList: [customer_StarCourseListResp_StarCourse]
+    "状态"
+    status: base_Status
+}
+
+type customer_StarCourseListResp_StarCourse {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    courseInfo: course_CourseInfoResponse
+    "收藏课程ID"
+    id: Long
+    "课程章节 ID"
+    lessonId: Long
+    lessonInfo: course_ChapterLessonInfo
+    schedule: customer_WatchCourseScheduleResp
+    video: video_CourseVideoResponse
+}
+
+type customer_StarCourseReq {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "课程章节 ID"
+    lessonId: Long
+}
+
+"状态"
+type customer_StarCourseResp {
+    status: base_Status
+}
+
+type customer_TopReq {
+    "我的课程 ID"
+    id: Long
+    "是否置顶   true 1: 置顶  false 2：取消置顶"
+    isTop: Boolean
+}
+
+type customer_TopResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_UnStarCourseReq {
+    "收藏课程章节 IDs"
+    ids: [Long]
+}
+
+type customer_UnStarCourseResp {
+    "状态"
+    status: base_Status
+}
+
+type customer_WatchCourseHistoryReq {
+    "课程分类 ID"
+    courseCategoryId: Int
+    "当前页"
+    cursorPrev: Int
+}
+
+type customer_WatchCourseHistoryResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "状态"
+    status: base_Status
+    "观看历史"
+    watchCourseHistory: [customer_WatchCourseHistoryResp_WatchCourseHistory]
+}
+
+type customer_WatchCourseHistoryResp_WatchCourseHistory {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    courseInfo: course_CourseInfoResponse
+    "看课时长"
+    duration: Int
+    "我的课程 ID"
+    id: Long
+    "课程章节 ID"
+    lessonId: Long
+    lessonInfo: course_ChapterLessonInfo
+    "观看时间"
+    updatedAt: String
+    video: video_CourseVideoResponse
+}
+
+type customer_WatchCourseScheduleReq {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "课程节 ID"
+    lessonId: Long
+}
+
+type customer_WatchCourseScheduleResp {
+    "观看进度列表"
+    scheduleList: [customer_WatchCourseScheduleResp_Schedule]
+}
+
+type customer_WatchCourseScheduleResp_Schedule {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "看课时长"
+    duration: Int
+    "课程章节 ID"
+    lessonId: Long
+    "视频总时长"
+    totalDuration: Int
+}
+
+"""
+
+A generic empty message that you can re-use to avoid defining duplicated
+empty messages in your APIs. A typical example is to use it as the request
+or the response type of an API method. For instance:
+
+service Foo {
+rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+The JSON representation for `Empty` is empty JSON object `{}`.
+"""
+type google_protobuf_Empty {
+    _: String
+}
+
+type helloworld_Foo {
+    id: Int
+    name: String
+}
+
+type helloworld_FooReply {
+    values: [helloworld_FooReply_ValuesEntry]
+}
+
+type helloworld_FooReply_ValuesEntry {
+    key: Int
+    value: helloworld_Foo
+}
+
+type helloworld_FooRequest {
+    ids: [Int]
+}
+
+type helloworld_HelloReply {
+    foo: String
+    message: String
+}
+
+type helloworld_HelloRequest {
+    name: String
+}
+
+type teacher_StarTeacherScoreReq {
+    "用户评论ID"
+    sId: Long
+}
+
+type teacher_StarTeacherScoreResp {
+    "1: 点赞， 2：取消点赞"
+    isStar: Int
+    "状态"
+    status: base_Status
+}
+
+type teacher_TeacherAverageScoreReq {
+    "老师ID"
+    tId: Long
+}
+
+type teacher_TeacherAverageScoreResp {
+    "平均分"
+    score: String
+    "评论总数"
+    total: String
+}
+
+type teacher_TeacherInfoReq {
+    "老师ID"
+    id: Long
+}
+
+type teacher_TeacherInfoResp {
+    "老师头像"
+    avatar: String
+    "老师ID"
+    id: Long
+    "老师介绍"
+    info: String
+    "老师姓名"
+    name: String
+    "老师角色"
+    role: [String]
+    "状态"
+    status: base_Status
+}
+
+type teacher_TeacherListReq {
+    "老师 ids"
+    ids: [Long]
+}
+
+type teacher_TeacherListResp {
+    "老师列表"
+    list: [teacher_TeacherListResp_TeacherInfo]
+    "状态"
+    status: base_Status
+}
+
+type teacher_TeacherListResp_TeacherInfo {
+    "老师头像"
+    avatar: String
+    "老师ID"
+    id: Long
+    "老师姓名"
+    name: String
+}
+
+type teacher_TeacherMapReq {
+    "老师 ids"
+    ids: [Long]
+}
+
+type teacher_TeacherMapResp {
+    "状态"
+    status: base_Status
+    "老师列表"
+    teacherInfo: [teacher_TeacherMapResp_TeacherInfoEntry]
+}
+
+type teacher_TeacherMapResp_TeacherInfo {
+    "老师头像"
+    avatar: String
+    "老师ID"
+    id: Long
+    "老师姓名"
+    name: String
+    tScore: teacher_TeacherAverageScoreResp
+}
+
+type teacher_TeacherMapResp_TeacherInfoEntry {
+    key: Long
+    value: teacher_TeacherMapResp_TeacherInfo
+}
+
+type teacher_TeacherScoreListReq {
+    "当前页"
+    cursorPrev: Int
+    "老师ID"
+    tId: Long
+}
+
+type teacher_TeacherScoreListResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "状态"
+    status: base_Status
+    "老师评论列表"
+    teacherScore: [teacher_TeacherScoreListResp_TeacherScore]
+}
+
+type teacher_TeacherScoreListResp_TeacherScore {
+    "用户评论"
+    comment: String
+    "评论时间"
+    createdAt: String
+    "用户ID"
+    guid: String
+    "评论ID"
+    id: Long
+    "是否点赞评论"
+    isStar: Boolean
+    nickname: String
+    "评论回复"
+    reply: String
+    "用户评分"
+    score: Int
+    "点赞总数"
+    starCount: Int
+    "老师ID"
+    tId: Long
+}
+
+type teacher_TeacherScoreReq {
+    "用户评论"
+    comment: String
+    "用户评分"
+    score: Int
+    "老师ID"
+    tId: Long
+}
+
+type teacher_TeacherScoreResp {
+    "状态"
+    status: base_Status
+}
+
+type video_CourseLive {
+    "互动直播聊天室id"
+    avChatRoomId: String
+    "直播频道id"
+    channelId: String
+    "直播间ID"
+    id: Long
+    "直播间名称"
+    name: String
+    "播放地址"
+    playUrl: String
+}
+
+type video_CourseVideo {
+    "已归档的聊天历史"
+    chatHistory: String
+    "高清url"
+    highQualityUrl: String
+    id: Long
+    "课节id"
+    lessonId: Long
+    "低清晰度url"
+    lowQualityUrl: String
+    "中等清晰度url"
+    normalQualityUrl: String
+    "备注"
+    remark: String
+}
+
+type video_CourseVideoRequest {
+    "课程id"
+    courseId: Long
+    "节"
+    lessonId: Long
+}
+
+type video_CourseVideoResponse {
+    courseLive: video_CourseLive
+    courseVideo: video_CourseVideo
+    status: video_CourseVideoStatus
+}
+
+type video_CourseVideoStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_base_Status {
+    "RPC响应状态码，成功状态码为0，错误状态码自行定义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_course_CategoryCreateRequest {
+    "分类名称"
+    categoryName: String
+    "分类排序"
+    sort: Int
+    "分类隐藏状态 0显示，1影藏"
+    status: Int
+}
+
+input Input_course_CategoryInfo {
+    "分类名称"
+    categoryName: String
+    "分类id"
+    id: Long
+    "分类排序"
+    sort: Int
+    "分类隐藏状态 0显示，1影藏"
+    status: Int
+}
+
+input Input_course_CategoryListResponse {
+    "分类列表"
+    cateList: [Input_course_CategoryInfo]
+    status: Input_course_CategoryStatus
+}
+
+input Input_course_CategorySearchRequest {
+    "NOT USED"
+    _: String = ""
+}
+
+input Input_course_CategoryStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_course_CategorySuccessResponse {
+    status: Input_course_CategoryStatus
+}
+
+input Input_course_ChapterHandoutResponse {
+    "章节名称"
+    chapterName: String
+    handout: [Input_course_HandoutResponse]
+    "排序"
+    sort: Int
+}
+
+input Input_course_ChapterInfo {
+    "章节名称"
+    chapterName: String
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "章节id"
+    id: Long
+    "章节排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+}
+
+input Input_course_ChapterInfoRequest {
+    "章节id"
+    chapterId: Long
+}
+
+input Input_course_ChapterLessonInfo {
+    "章节id"
+    chapterId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "课节id"
+    id: Long
+    "播放状态1:直播中  2:未开播  3:已播完  4:可回放"
+    liveStatus: Int
+    "课节名称"
+    name: String
+    "开课时间"
+    openTime: String
+    "排序"
+    sort: Int
+    "老师id"
+    teacherId: Long
+    "更新时间"
+    updatedAt: String
+}
+
+input Input_course_ChapterLessonResponse {
+    "章节id"
+    chapterId: Long
+    "已归档的聊天历史"
+    chatHistory: String
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "回放视频时长"
+    duration: String
+    "高清size"
+    highQualitySize: Float
+    "高清url"
+    highQualityUrl: String
+    "课节id"
+    id: Long
+    "播放状态1:直播中  2:未开播  3:已播完  4:可回放"
+    liveStatus: Int
+    "低清晰度size"
+    lowQualitySize: Float
+    "低清晰度url"
+    lowQualityUrl: String
+    "课节名称"
+    name: String
+    "中等清晰度size"
+    normalQualitySize: Float
+    "中等清晰度url"
+    normalQualityUrl: String
+    "开课时间"
+    openTime: String
+    "排序"
+    sort: Int
+    "老师id"
+    teacherId: Long
+    "更新时间"
+    updatedAt: String
+    videoDownload: Input_course_VideoDownload
+}
+
+input Input_course_ChapterListRequest {
+    "课程id"
+    courseId: Long
+}
+
+input Input_course_ChapterMapRequest {
+    courseIds: [Long]
+}
+
+input Input_course_ChapterResponse {
+    "课节列表"
+    chapterLesson: [Input_course_ChapterLessonResponse]
+    "章节名称"
+    chapterName: String
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "章节id"
+    id: Long
+    "章节排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+}
+
+input Input_course_ChapterStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_course_ChapterSuccessResponse {
+    status: Input_course_ChapterStatus
+}
+
+input Input_course_CourseChapterMapResponse {
+    chapterInfoMap: [Input_course_CourseChapterMapResponse_ChapterInfoMapEntry]
+    status: Input_course_ChapterStatus
+}
+
+input Input_course_CourseChapterMapResponse_ChapterInfoMapEntry {
+    key: Long
+    value: Input_course_CourseChapterResponse
+}
+
+input Input_course_CourseChapterResponse {
+    chapter: [Input_course_ChapterResponse]
+    status: Input_course_ChapterStatus
+}
+
+input Input_course_CourseIdListResponse {
+    courseId: [Long]
+    status: Input_course_InfoStatus
+}
+
+input Input_course_CourseInfoListPageRequest {
+    "地区编码"
+    areaCode: Long
+    "分类id"
+    categoryId: Long
+    page: Long
+    size: Long
+}
+
+input Input_course_CourseInfoListResponse {
+    courseInfoList: [Input_course_CourseInfoResponse]
+    status: Input_course_InfoStatus
+}
+
+input Input_course_CourseInfoListSearchRequest {
+    "地区编码"
+    areaCode: Long
+    "分类id"
+    categoryId: Long
+}
+
+input Input_course_CourseInfoMapResponse {
+    courseInfoList: [Input_course_CourseInfoMapResponse_CourseInfoListEntry]
+    status: Input_course_InfoStatus
+}
+
+input Input_course_CourseInfoMapResponse_CourseInfoListEntry {
+    key: Long
+    value: Input_course_CourseInfoResponse
+}
+
+input Input_course_CourseInfoRequest {
+    courseInfo: Input_course_CourseInfos
+    sort: Int
+}
+
+input Input_course_CourseInfoResponse {
+    "区"
+    area: Long
+    "banner图"
+    bannerImg: String
+    "价格"
+    buyPrice: Float
+    "课程分类ID"
+    categoryId: Long
+    "市"
+    city: Long
+    "城市名称"
+    cityName: String
+    "结束时间"
+    closeTime: String
+    "课程时长"
+    courseHour: String
+    "课程名称"
+    courseName: String
+    "标签"
+    courseTag: String
+    "1:直播课 2:录播课 3:地面课 4:活动课 5:可回放"
+    courseType: Int
+    "封面图"
+    coverImg: String
+    "扩展关键词"
+    expandKeyword: String
+    "第一章开课时间"
+    firstOpenTime: String
+    "热度"
+    hot: Long
+    "课程id"
+    id: Long
+    "介绍"
+    intro: String
+    "视频状态 1直播中 2录播课 3可回放 4未开播"
+    liveStatus: Long
+    "自定义设置开课时间展示"
+    manualOpenTime: String
+    "开课时间"
+    openTime: String
+    "省"
+    province: Long
+    status: Input_course_InfoStatus
+    "讲师"
+    teachers: String
+    "标签"
+    titleHot: String
+    "置顶 0不置顶，1置顶"
+    top: Long
+    "微信分享课程封面图"
+    wxShareImg: String
+}
+
+input Input_course_CourseInfoSearchByIdsRequest {
+    "课程ids"
+    ids: [Long]
+}
+
+input Input_course_CourseInfoSearchRequest {
+    "课程id"
+    id: Long
+}
+
+input Input_course_CourseInfos {
+    "区"
+    area: Long
+    "banner图"
+    bannerImg: String
+    "课程分类ID"
+    categoryId: Long
+    "市"
+    city: Long
+    "城市名称"
+    cityName: String
+    "结束时间"
+    closeTime: String
+    "课程时长"
+    courseHour: String
+    "课程名称"
+    courseName: String
+    "标签"
+    courseTag: String
+    "1:直播课 2:录播课 3:地面课 4:活动课 5:可回放"
+    courseType: Int
+    "封面图"
+    coverImg: String
+    "扩展关键词"
+    expandKeyword: String
+    "热度"
+    hot: Long
+    "课程id"
+    id: Long
+    "介绍"
+    intro: String
+    "自定义设置开课时间展示"
+    manualOpenTime: String
+    "开课时间"
+    openTime: String
+    "省"
+    province: Long
+    "讲师"
+    teachers: String
+    "标签"
+    titleHot: String
+    "置顶 0不置顶，1置顶"
+    top: Long
+    "微信分享课程封面图"
+    wxShareImg: String
+}
+
+input Input_course_CourseLessonListResponse {
+    chapterLesson: [Input_course_ChapterLessonInfo]
+    status: Input_course_ChapterStatus
+}
+
+input Input_course_CourseLessonMapResponse {
+    chapterLesson: [Input_course_CourseLessonMapResponse_ChapterLessonEntry]
+    status: Input_course_ChapterStatus
+}
+
+input Input_course_CourseLessonMapResponse_ChapterLessonEntry {
+    key: Long
+    value: Input_course_ChapterLessonInfo
+}
+
+input Input_course_CourseLessonResponse {
+    chapterLesson: Input_course_ChapterLessonInfo
+    status: Input_course_ChapterStatus
+}
+
+input Input_course_CourseLive {
+    chatRoomid: Long
+    lessonId: Long
+    livePushStreamUrl: String
+    livehouseId: Long
+    playUrl: String
+}
+
+input Input_course_CourseNoticeMapResponse {
+    noticeInfo: [Input_course_CourseNoticeMapResponse_NoticeInfoEntry]
+    status: Input_course_NoticeStatus
+}
+
+input Input_course_CourseNoticeMapResponse_NoticeInfoEntry {
+    key: Long
+    value: Input_course_NoticeInfo
+}
+
+input Input_course_CourseNoticeRequest {
+    "课程id"
+    id: Long
+}
+
+input Input_course_CourseNoticeResponse {
+    noticeInfo: Input_course_NoticeInfo
+    status: Input_course_NoticeStatus
+}
+
+input Input_course_CourseNoticeSuccessResponse {
+    status: Input_course_NoticeStatus
+}
+
+input Input_course_CourseSearchRequest {
+    keyword: String
+    pageNum: Long
+    pageSize: Long
+}
+
+input Input_course_CourseSort {
+    categoryId: Long
+    courseId: Long
+    sort: Long
+}
+
+input Input_course_CourseSortListResponse {
+    courseSort: [Input_course_CourseSort]
+    status: Input_course_InfoStatus
+}
+
+input Input_course_CourseSortResponse {
+    "分类id"
+    categoryId: Long
+    "课程id"
+    courseId: Long
+    courseList: [Input_course_CourseInfoResponse]
+}
+
+input Input_course_CourseSuccessResponse {
+    status: Input_course_InfoStatus
+}
+
+input Input_course_CourseVideo {
+    chatHistory: String
+    highQualityUrl: String
+    id: Long
+    lessonId: String
+    lowQualityUrl: String
+    normalQualityUrl: String
+    remark: String
+}
+
+input Input_course_HandoutListRequest {
+    "课程id"
+    courseId: Long
+}
+
+input Input_course_HandoutListResponse {
+    handoutList: [Input_course_ChapterHandoutResponse]
+    status: Input_course_HandoutStatus
+}
+
+input Input_course_HandoutLists {
+    handoutList: [Input_course_ChapterHandoutResponse]
+}
+
+input Input_course_HandoutMapResponse {
+    handoutList: [Input_course_HandoutMapResponse_HandoutListEntry]
+    status: Input_course_HandoutStatus
+}
+
+input Input_course_HandoutMapResponse_HandoutListEntry {
+    key: Long
+    value: Input_course_HandoutLists
+}
+
+input Input_course_HandoutRequest {
+    "章节id"
+    chapterId: Long
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "资料类型 1、课程讲义;2、课程答案及课堂笔记;3、模考试卷;4、其他资料"
+    handoutType: Int
+    "资料id"
+    id: Long
+    "资料名称"
+    name: String
+    "排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+    "链接地址"
+    url: String
+}
+
+input Input_course_HandoutResponse {
+    "章节id"
+    chapterId: Long
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "资料类型 1、课程讲义;2、课程答案及课堂笔记;3、模考试卷;4、其他资料"
+    handoutType: Int
+    "资料id"
+    id: Long
+    "资料名称"
+    name: String
+    "文件大小"
+    size: String
+    "文件字节大小"
+    sizeByte: Long
+    "排序"
+    sort: Int
+    "更新时间"
+    updatedAt: String
+    "链接地址"
+    url: String
+}
+
+input Input_course_HandoutStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_course_HandoutSuccessResponse {
+    status: Input_course_HandoutStatus
+}
+
+input Input_course_InfoStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_course_KeyframeDesc {
+    "描述"
+    desc: String
+    "time 时间节点/秒"
+    time: Long
+    "链接类型 1图片 2视频"
+    type: Int
+    "链接"
+    url: String
+}
+
+input Input_course_LessonInfoRequest {
+    "课节id"
+    lessonId: Long
+}
+
+input Input_course_LessonListRequest {
+    "课节ids"
+    lessonIds: [Long]
+}
+
+input Input_course_NoticeInfo {
+    "公告内容"
+    content: String
+    "课程id"
+    courseId: Long
+    "创建时间"
+    createdAt: String
+    "删除时间"
+    deletedAt: String
+    "公告"
+    id: Long
+    "更新时间"
+    updatedAt: String
+}
+
+input Input_course_NoticeStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+input Input_course_SearchCourseIdsResponse {
+    count: Long
+    courseId: [Long]
+    status: Input_course_InfoStatus
+}
+
+input Input_course_SearchCourseInfoListResponse {
+    count: Long
+    courseInfoList: [Input_course_CourseInfoResponse]
+    status: Input_course_InfoStatus
+}
+
+input Input_course_TeacherIdsResponse {
+    status: Input_course_InfoStatus
+    teacherIds: [Long]
+}
+
+input Input_course_VideoDownload {
+    "已归档的聊天历史"
+    chatHistory: String
+    "高清size"
+    highQualitySize: Float
+    "高清url"
+    highQualityUrl: String
+    "低清晰度size"
+    lowQualitySize: Float
+    "低清晰度url"
+    lowQualityUrl: String
+    "中等清晰度size"
+    normalQualitySize: Float
+    "中等清晰度url"
+    normalQualityUrl: String
+}
+
+input Input_course_VideoKeyframeInfo {
+    id: Long
+    keyframeDesc: [Input_course_KeyframeDesc]
+    "课节id"
+    lessonId: Long
+    "上传类型 1人工 2自动"
+    type: Int
+}
+
+input Input_course_VideoKeyframeResponse {
+    status: Input_course_ChapterStatus
+    videoKeyframe: [Input_course_VideoKeyframeResponse_VideoKeyframeEntry]
+}
+
+input Input_course_VideoKeyframeResponse_VideoKeyframeEntry {
+    key: Long
+    value: Input_course_VideoKeyframeInfo
+}
+
+input Input_customer_AddCourseCategoryReq {
+    "选中 课程分类 ID (1,2,3,4)"
+    courseCategoryId: String
+}
+
+input Input_customer_AddCourseCategoryResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_AddMyCourseReq {
+    "老师 头像"
+    avatars: String
+    "结束时间"
+    closeTime: String
+    "课程ID"
+    courseId: Long
+    "课程名称"
+    courseName: String
+    "开始时间"
+    openTime: String
+}
+
+input Input_customer_AddMyCourseResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_AddSearchReq {
+    "搜索内容"
+    search: String
+}
+
+input Input_customer_AddSearchResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_AddWatchCourseHistoryReq {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "看课时长"
+    duration: Int
+    "课程章节 ID"
+    lessonId: Long
+    "视频总时长"
+    totalDuration: Int
+}
+
+input Input_customer_AddWatchCourseHistoryResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_CourseCategoryResp {
+    "课程分类 ID"
+    courseCategoryId: [String]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_HideListReq {
+    "当前页"
+    cursorPrev: Int
+}
+
+input Input_customer_HideListResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "隐藏课程章节列表"
+    hideCourseList: [Input_customer_HideListResp_HideCourse]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_HideListResp_HideCourse {
+    "课程 ID"
+    courseId: Long
+    "收藏课程ID"
+    id: Long
+}
+
+input Input_customer_HideReq {
+    "老师 头像"
+    avatars: String
+    "结束时间"
+    closeTime: String
+    "课程分类ID"
+    courseCategoryId: Int
+    "课程ID"
+    courseId: Long
+    "课程名称"
+    courseName: String
+    "我的课程 ID"
+    id: Long
+    "是否隐藏   true : 隐藏  false ：取消隐藏"
+    isHide: Boolean
+    "开始时间"
+    openTime: String
+}
+
+input Input_customer_HideResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_HotSearchResp {
+    "用户热搜"
+    hotSearch: [String]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_IsAddMyCourseReq {
+    "课程 ID"
+    courseId: Long
+}
+
+input Input_customer_IsAddMyCourseResp {
+    "true 已添加，false 没添加"
+    isAdd: Boolean
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_IsStarCourseReq {
+    "课程章节 ID"
+    lessonId: Long
+}
+
+input Input_customer_IsStarCourseResp {
+    "true 已收藏，false 没收藏"
+    isStar: Boolean
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_MyCourseCategoryResp {
+    "课程分类 ID"
+    courseCategoryId: [Int]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_MyCourseReq {
+    "课程分类 ID"
+    courseCategoryId: Int
+    "当前页"
+    cursorPrev: Int
+}
+
+input Input_customer_MyCourseResp {
+    "我的课程列表"
+    course: [Input_customer_MyCourseResp_Course]
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_MyCourseResp_Course {
+    "课程ID"
+    courseId: Long
+    "id"
+    id: Long
+    "置顶时间"
+    topAt: String
+}
+
+input Input_customer_SearchHistoryResp {
+    "用户搜索历史"
+    search: [String]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_SearchReq {
+    "当前页"
+    cursorPrev: Int
+    "搜索内容"
+    search: String
+}
+
+input Input_customer_SearchResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "我的课程列表 ids"
+    myEsCourse: [Input_customer_SearchResp_MyESCourse]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_SearchResp_MyESCourse {
+    "老师 头像"
+    avatars: String
+    "结束时间"
+    closeTime: String
+    "课程ID"
+    courseId: Long
+    "课程名称"
+    courseName: String
+    "我的课程列表 id"
+    id: Long
+    "开始时间"
+    openTime: String
+}
+
+input Input_customer_StarCourseListReq {
+    "当前页"
+    cursorPrev: Int
+}
+
+input Input_customer_StarCourseListResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "收藏课程章节列表"
+    starCourseList: [Input_customer_StarCourseListResp_StarCourse]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_StarCourseListResp_StarCourse {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "收藏课程ID"
+    id: Long
+    "课程章节 ID"
+    lessonId: Long
+}
+
+input Input_customer_StarCourseReq {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "课程章节 ID"
+    lessonId: Long
+}
+
+"状态"
+input Input_customer_StarCourseResp {
+    status: Input_base_Status
+}
+
+input Input_customer_TopReq {
+    "我的课程 ID"
+    id: Long
+    "是否置顶   true 1: 置顶  false 2：取消置顶"
+    isTop: Boolean
+}
+
+input Input_customer_TopResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_UnStarCourseReq {
+    "收藏课程章节 IDs"
+    ids: [Long]
+}
+
+input Input_customer_UnStarCourseResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_customer_WatchCourseHistoryReq {
+    "课程分类 ID"
+    courseCategoryId: Int
+    "当前页"
+    cursorPrev: Int
+}
+
+input Input_customer_WatchCourseHistoryResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "状态"
+    status: Input_base_Status
+    "观看历史"
+    watchCourseHistory: [Input_customer_WatchCourseHistoryResp_WatchCourseHistory]
+}
+
+input Input_customer_WatchCourseHistoryResp_WatchCourseHistory {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "看课时长"
+    duration: Int
+    "我的课程 ID"
+    id: Long
+    "课程章节 ID"
+    lessonId: Long
+    "观看时间"
+    updatedAt: String
+}
+
+input Input_customer_WatchCourseScheduleReq {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "课程节 ID"
+    lessonId: Long
+}
+
+input Input_customer_WatchCourseScheduleResp {
+    "观看进度列表"
+    scheduleList: [Input_customer_WatchCourseScheduleResp_Schedule]
+}
+
+input Input_customer_WatchCourseScheduleResp_Schedule {
+    "课程章 ID"
+    chapterId: Long
+    "课程 ID"
+    courseId: Long
+    "看课时长"
+    duration: Int
+    "课程章节 ID"
+    lessonId: Long
+    "视频总时长"
+    totalDuration: Int
+}
+
+"""
+
+A generic empty message that you can re-use to avoid defining duplicated
+empty messages in your APIs. A typical example is to use it as the request
+or the response type of an API method. For instance:
+
+service Foo {
+rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+The JSON representation for `Empty` is empty JSON object `{}`.
+"""
+input Input_google_protobuf_Empty {
+    "NOT USED"
+    _: String = ""
+}
+
+input Input_helloworld_Foo {
+    id: Int
+    name: String
+}
+
+input Input_helloworld_FooReply {
+    values: [Input_helloworld_FooReply_ValuesEntry]
+}
+
+input Input_helloworld_FooReply_ValuesEntry {
+    key: Int
+    value: Input_helloworld_Foo
+}
+
+input Input_helloworld_FooRequest {
+    ids: [Int]
+}
+
+input Input_helloworld_HelloReply {
+    foo: String
+    message: String
+}
+
+input Input_helloworld_HelloRequest {
+    name: String
+}
+
+input Input_teacher_StarTeacherScoreReq {
+    "用户评论ID"
+    sId: Long
+}
+
+input Input_teacher_StarTeacherScoreResp {
+    "1: 点赞， 2：取消点赞"
+    isStar: Int
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_teacher_TeacherAverageScoreReq {
+    "老师ID"
+    tId: Long
+}
+
+input Input_teacher_TeacherAverageScoreResp {
+    "平均分"
+    score: String
+    "评论总数"
+    total: String
+}
+
+input Input_teacher_TeacherInfoReq {
+    "老师ID"
+    id: Long
+}
+
+input Input_teacher_TeacherInfoResp {
+    "老师头像"
+    avatar: String
+    "老师ID"
+    id: Long
+    "老师介绍"
+    info: String
+    "老师姓名"
+    name: String
+    "老师角色"
+    role: [String]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_teacher_TeacherListReq {
+    "老师 ids"
+    ids: [Long]
+}
+
+input Input_teacher_TeacherListResp {
+    "老师列表"
+    list: [Input_teacher_TeacherListResp_TeacherInfo]
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_teacher_TeacherListResp_TeacherInfo {
+    "老师头像"
+    avatar: String
+    "老师ID"
+    id: Long
+    "老师姓名"
+    name: String
+}
+
+input Input_teacher_TeacherMapReq {
+    "老师 ids"
+    ids: [Long]
+}
+
+input Input_teacher_TeacherMapResp {
+    "状态"
+    status: Input_base_Status
+    "老师列表"
+    teacherInfo: [Input_teacher_TeacherMapResp_TeacherInfoEntry]
+}
+
+input Input_teacher_TeacherMapResp_TeacherInfo {
+    "老师头像"
+    avatar: String
+    "老师ID"
+    id: Long
+    "老师姓名"
+    name: String
+}
+
+input Input_teacher_TeacherMapResp_TeacherInfoEntry {
+    key: Long
+    value: Input_teacher_TeacherMapResp_TeacherInfo
+}
+
+input Input_teacher_TeacherScoreListReq {
+    "当前页"
+    cursorPrev: Int
+    "老师ID"
+    tId: Long
+}
+
+input Input_teacher_TeacherScoreListResp {
+    "下一页"
+    cursorNext: Int
+    "当前页"
+    cursorPrev: Int
+    "状态"
+    status: Input_base_Status
+    "老师评论列表"
+    teacherScore: [Input_teacher_TeacherScoreListResp_TeacherScore]
+}
+
+input Input_teacher_TeacherScoreListResp_TeacherScore {
+    "用户评论"
+    comment: String
+    "评论时间"
+    createdAt: String
+    "用户ID"
+    guid: String
+    "评论ID"
+    id: Long
+    "是否点赞评论"
+    isStar: Boolean
+    "评论回复"
+    reply: String
+    "用户评分"
+    score: Int
+    "点赞总数"
+    starCount: Int
+    "老师ID"
+    tId: Long
+}
+
+input Input_teacher_TeacherScoreReq {
+    "用户评论"
+    comment: String
+    "用户评分"
+    score: Int
+    "老师ID"
+    tId: Long
+}
+
+input Input_teacher_TeacherScoreResp {
+    "状态"
+    status: Input_base_Status
+}
+
+input Input_video_CourseLive {
+    "互动直播聊天室id"
+    avChatRoomId: String
+    "直播频道id"
+    channelId: String
+    "直播间ID"
+    id: Long
+    "直播间名称"
+    name: String
+    "播放地址"
+    playUrl: String
+}
+
+input Input_video_CourseVideo {
+    "已归档的聊天历史"
+    chatHistory: String
+    "高清url"
+    highQualityUrl: String
+    id: Long
+    "课节id"
+    lessonId: Long
+    "低清晰度url"
+    lowQualityUrl: String
+    "中等清晰度url"
+    normalQualityUrl: String
+    "备注"
+    remark: String
+}
+
+input Input_video_CourseVideoRequest {
+    "课程id"
+    courseId: Long
+    "节"
+    lessonId: Long
+}
+
+input Input_video_CourseVideoResponse {
+    courseLive: Input_video_CourseLive
+    courseVideo: Input_video_CourseVideo
+    status: Input_video_CourseVideoStatus
+}
+
+input Input_video_CourseVideoStatus {
+    "RPC响应状态码,成功状态码为0,错误状态码自行定义,但是需要在出错的情况下有地方可以查询到具体含义。"
+    code: String
+    "RPC错误描述信息, 正常响应msg == nil"
+    msg: String
+}
+
+
+"Long type"
+scalar Long
