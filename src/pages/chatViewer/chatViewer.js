@@ -120,7 +120,7 @@ class ChatViewer extends React.Component {
       obj.f = e.m.f || ''
       obj.u = e.u
       obj.giftMsg = '赠送了'
-      obj.c = e.c.toString()
+      obj.c = e.c
       obj.i = e.i
       obj.s = '0'
       this.setState({ chatList: [...this.state.chatList, obj] })
@@ -135,7 +135,7 @@ class ChatViewer extends React.Component {
       obj.g = _.msg
       obj.p = '0'
       obj.u = _.user.username
-      obj.c = 0
+      obj.c = _.user.level==='2'?2:_.user.level==='3'?3:0
       obj.s = '1'
       this.setState({ chatList: [...this.state.chatList, obj] })
       setTimeout(() => {
@@ -288,23 +288,6 @@ class ChatViewer extends React.Component {
                   <SingleMsg chatList={this.state.chatList}/>
                 </div>
               </div>
-              {
-                this.state.width/2>7500?<>
-                  {this.state.add?<div className={'chatBox'}>
-                    <div className={'livePlay'}>
-                      <div className={'live'}>
-                        <LivePlay id={'courseTwo'} liveUrl={this.state.liveUrl}/>
-                      </div>
-                      <PlayControl oldHot={this.state.oldHot} oldCount={this.state.oldCount} showLogin={this.showLogin}  uid={this.state.uid} selectLive={this.changeCourse}
-                                   hot={this.state.hot} num={this.state.count} courseList={this.state.courseList}/>
-                    </div>
-                    <div className={'chat'}>
-                      <div onClick={() => this.setState({ loginVisible: !this.state.loginVisible })} className={'other'}/>
-                      <SingleMsg chatList={this.state.chatList}/>
-                    </div>
-                  </div>:<div className={'add'}><img onClick={_=>this.setState({add:true})} src={require('../../image/add2.png').default}/></div>}
-                </>:''
-              }
               <Modal
                       title={'登录'}
                       onCancel={() => this.setState({ loginVisible: false })}
