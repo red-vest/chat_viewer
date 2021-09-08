@@ -13,7 +13,7 @@ class LivePlay extends React.PureComponent{
       container: document.getElementById(this.props.id),
       live: true,
       video:{
-        url:url,
+        url:url.replace('http','https'),
         type:'customFlv',
         customType:{
           customFlv: function (video, player) {
