@@ -2,6 +2,24 @@
   display: flex;
   width: 100%;
   height: 100vh;
+  position: relative;
+  .drag{
+    position: absolute;
+    width: 20px;
+    user-select: none;
+    height: 30px;
+    border-radius: 3px;
+    background: url("../../image/拖动.png") no-repeat;
+    background-size: contain;
+    background-position: center;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 999;
+    transition: all .1s;
+  }
+  .drag:hover{
+    background-color: #f1f1f1;
+  }
   .add{
     width: 100%;
     height: 100vh;
@@ -15,9 +33,9 @@
     display: flex;
     .livePlay {
       width: 500px;
-      min-width: 350px;
       height: 100%;
       padding: 20px 10px 10px;
+      transition: all .1s;
 
       .live {
         width: 100%;
@@ -29,8 +47,6 @@
       }
     }
     .chat{
-      width: calc(100% - 510px);
-      min-width: 400px;
       height: 100%;
       background: rgba(255,255,255,0.65);
       box-sizing: border-box;
@@ -39,6 +55,35 @@
       flex-direction: column;
       justify-content: flex-start;
       position: relative;
+      transition: all .1s;
+      .gg{
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px;
+        height: 100px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        top: 0;
+        left: 0;
+        .logo{
+          width: 25px;
+          height: 25px;
+          border-radius: 25px;
+          overflow: hidden;
+          user-select: none;
+        }
+        .notice{
+          width: 100%;
+          font-weight: bold;
+          height: calc(100% - 30px);
+          overflow: hidden;
+          overflow-y: auto;
+          text-align: left;
+          word-break: break-word;
+        }
+      }
       .other{
         position: absolute;
         top: 0px;
