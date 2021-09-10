@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './chatViewer.scss'
 import io from 'socket.io-client'
 import config from '../../config'
@@ -6,27 +6,12 @@ import SingleMsg from './singleMsg/singleMsg'
 import LivePlay from './livePlay/livePlay'
 import PlayControl from './playControl/playControl'
 import Axios from 'axios'
-import { Row, Col, Select, message, Modal, Button, Input,Tabs,Radio,Space } from 'antd'
+import { Row, Col, message, Modal, Button, Input,Radio } from 'antd'
 import axios from 'axios'
-const { TabPane } = Tabs;
 let num = 0;
 
-function debounce(fn, delay = 500) {
-  // timer 是在闭包中的
-  let timer = null;
 
-  return function() {
-    if (timer) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(() => {
-      fn.apply(this, arguments)
-      timer = null
-    }, delay)
-  }
-}
-
-let socket = null, socketTwo = null, move = false,start = 0,offSetX = 0;
+let socket = null, socketTwo = null, move = false,offSetX = 0;
 
 function gql (query) {
   return query[0]
@@ -45,6 +30,7 @@ class ChatViewer extends React.PureComponent {
       mobile: '',
       pwd: '',
       courseList: [],
+      showStop:false,
       username: '',
       loginVisible: false,
       avatar: '',
@@ -62,6 +48,9 @@ class ChatViewer extends React.PureComponent {
     this.showLogin = this.showLogin.bind(this)
     this.drag = this.drag.bind(this)
     this.getNotice = this.getNotice.bind(this)
+    this.msgRef = this.msgRef.bind(this)
+    this.scrollStop = this.scrollStop.bind(this)
+    this.resScroll = this.resScroll.bind(this)
   }
 
   componentDidMount () {
@@ -82,7 +71,9 @@ class ChatViewer extends React.PureComponent {
     })
     this.getCourseList()
   }
-
+  msgRef(ref){
+    this.singleMsg = ref
+  }
   init (courseId, lessonId, channel, uid, username, channelId) {
     const data = {
       forceNew: true,
@@ -169,11 +160,10 @@ class ChatViewer extends React.PureComponent {
       obj.c = e.c
       obj.i = e.i
       obj.s = '0'
-      this.setState({ chatList: [...this.state.chatList, obj] })
-      setTimeout(() => {
-        let ele = document.getElementById('msgList')
-        ele.scrollTop = ele.scrollHeight
-      }, 0)
+
+      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+        this.singleMsg.scroll()
+      })
     })
     socketTwo.on('received message', _ => {
       let obj = {}
@@ -183,11 +173,9 @@ class ChatViewer extends React.PureComponent {
       obj.u = _.user.username
       obj.c = _.user.level === '2' ? 2 : _.user.level === '3' ? 3 : 0
       obj.s = '1'
-      this.setState({ chatList: [...this.state.chatList, obj] })
-      setTimeout(() => {
-        let ele = document.getElementById('msgList')
-        ele.scrollTop = ele.scrollHeight
-      }, 0)
+      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+        this.singleMsg.scroll()
+      })
     })
     socketTwo.on('get announcement',_=>{
       this.setState({oldNotice:_.msg})
@@ -206,11 +194,9 @@ class ChatViewer extends React.PureComponent {
       obj.c = 0
       obj.s = '1'
       obj.f = '5'
-      this.setState({ chatList: [...this.state.chatList, obj] })
-      setTimeout(() => {
-        let ele = document.getElementById('msgList')
-        ele.scrollTop = ele.scrollHeight
-      }, 0)
+      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+        this.singleMsg.scroll()
+      })
     })
     socketTwo.on('interaction number', _ => {
       let obj = {}
@@ -222,11 +208,9 @@ class ChatViewer extends React.PureComponent {
       obj.f = _.type === 0 ? 'lsh' : _.type === 1 ? 'mbl' : 'hbd'
       obj.c = 0
       obj.s = '1'
-      this.setState({ chatList: [...this.state.chatList, obj] })
-      setTimeout(() => {
-        let ele = document.getElementById('msgList')
-        ele.scrollTop = ele.scrollHeight
-      }, 0)
+      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+        this.singleMsg.scroll()
+      })
     })
     socket.on('count', _ => {
       this.setState({ count: _ })
@@ -235,7 +219,9 @@ class ChatViewer extends React.PureComponent {
       this.setState({ oldCount: _ })
     })
   }
-
+  scrollStop(bool){
+    this.setState({showStop:bool})
+  }
   async getCourseList () {
     let result = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list?course_status=1&is_close=1')
     let resultT = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list?course_status=1&is_close=2')
@@ -352,7 +338,9 @@ class ChatViewer extends React.PureComponent {
     move = true
     offSetX = e.nativeEvent.offsetX
   }
-
+  resScroll(){
+    this.singleMsg.resScroll()
+  }
   endDrag () {
     move = false
   }
@@ -378,6 +366,9 @@ class ChatViewer extends React.PureComponent {
                                hot={this.state.hot} num={this.state.count} courseList={this.state.courseList}/>
                 </div>
                 <div className={'chat'} style={{width:`calc(100% - ${this.state.playWidth+10}px)`}}>
+                  {
+                    this.state.showStop?<div onClick={this.resScroll} className={'stopScroll'}>滚动界面，聊天已暂停</div>:''
+                  }
                   <div className={'gg'}>
                     <Radio.Group  defaultValue='1' size={'small'} onChange={_=>this.setState({selectNotice:_.target.value})}>
                       <Radio.Button value='1'>新途径在线</Radio.Button>
@@ -388,7 +379,7 @@ class ChatViewer extends React.PureComponent {
                     </div>
                   </div>
                   <div onClick={() => this.setState({ loginVisible: !this.state.loginVisible })} className={'other'}/>
-                  <SingleMsg chatList={this.state.chatList}/>
+                  <SingleMsg scrollStop={this.scrollStop} onRef={this.msgRef} chatList={this.state.chatList}/>
                 </div>
               </div>
               <Modal

@@ -57,7 +57,7 @@ class PlayControl extends React.Component {
                           <h3>热度信息</h3>
                         </Row>
                         <Row style={{ marginBottom: '10px' }} align={'middle'} gutter={20}>
-                          <Col><img className={'logo'} src={logo}/> 新途径在线</Col>
+                          <Col><img alt={'logo'} className={'logo'} src={logo}/> 新途径在线</Col>
                           <Col>
                             <div className={'hot'}><FireTwoTone/>热度：{hot}</div>
                           </Col>
@@ -66,7 +66,7 @@ class PlayControl extends React.Component {
                           </Col>
                         </Row>
                         <Row align={'middle'} gutter={20}>
-                          <Col><img className={'logo'} src={logoT}/> 新途径教育</Col>
+                          <Col><img alt={'logo'} className={'logo'} src={logoT}/> 新途径教育</Col>
                           <Col>
                             <div className={'hot'}><FireTwoTone/>热度：{oldHot}</div>
                           </Col><Col>
@@ -76,7 +76,7 @@ class PlayControl extends React.Component {
 
                         <div className={'noticeSet'}>
                           <h3>公告设置</h3>
-                          <TextArea placeholder={'输入内容以更新新途径在在线公告'} value={this.state.inputNotice} onChange={_=>this.setState({inputNotice:_.target.value})} showCount maxLength={200}/>
+                          <TextArea placeholder={'输入内容以更新新途径在线公告'} value={this.state.inputNotice} onChange={_=>this.setState({inputNotice:_.target.value})} showCount maxLength={200}/>
                           <Button onClick={this.setNotice.bind(this)} style={{marginTop:'5px'}} type="primary">更新公告</Button>
                         </div>
                       </>
