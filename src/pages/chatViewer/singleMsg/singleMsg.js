@@ -3,7 +3,7 @@ import './singleMsg.scss'
 import logo from '../../../image/18.png'
 import logoT from '../../../image/9.png'
 import { CloseCircleOutlined } from '@ant-design/icons'
-import { Button, Col, Row, InputNumber } from 'antd'
+import { Button, InputNumber,message } from 'antd'
 import axios from 'axios'
 
 let lastScrollTop = 0, isScroll = true
@@ -72,6 +72,7 @@ class SingleMsg extends React.PureComponent {
   StopSend(){
     axios.get(`https://chat.xtjzx.cn/manager/ban?guid=${this.state.uid}&duration=${this.state.date*60}`).then(_=>{
       message.success('禁言成功')
+      this.setState({date:1,top:9999,left:9999,stopMsg:false})
       console.log(_)
     })
   }
@@ -83,13 +84,13 @@ class SingleMsg extends React.PureComponent {
               <div style={{ top: this.state.top, left: this.state.left }} className={'userTab'}>
                 <div className={'tabBox'}>
                   <div onClick={_ => this.setState({ top: 9999, left: 9999 })} className={'close'}>
-                    <CloseCircleOutlined style={{ color: '#ffffff' }}/>
+                    <CloseCircleOutlined style={{ color: '#000000' }}/>
                   </div>
                   <div className={'userName'}>
                     {this.state.userName}
                   </div>
                   <div className={'btn'}>
-                    <Button onClick={_ => this.setState({ stopMsg: true })} type={'danger'}>禁言</Button>
+                    <Button onClick={_ => this.setState({ stopMsg: !this.state.stopMsg })} type={'danger'}>{this.state.stopMsg?'取消':'禁言'}</Button>
                     {
                       this.state.stopMsg ? <><InputNumber min={1} onStep={_ => this.setState({ date: _ })}
                                                           onChange={_ => this.setState({ date: _ })}
