@@ -9,28 +9,37 @@ class LivePlay extends React.PureComponent{
   }
 
   play(url){
+    // dp = new DPlayer({
+    //   container: document.getElementById(this.props.id),
+    //   live: true,
+    //   video:{
+    //     url:url.replace('http','https'),
+    //     type:'customFlv',
+    //     customType:{
+    //       customFlv: function (video, player) {
+    //         const flvPlayer = window.flvjs.createPlayer({
+    //           isLive:true,
+    //           enableStashBuffer:false,
+    //           cors:true,
+    //           type: 'flv',
+    //           url: video.src
+    //         });
+    //         flvPlayer.attachMediaElement(video);
+    //         flvPlayer.load();
+    //         flvPlayer.play();
+    //       },
+    //     }
+    //   }
+    // })
     dp = new DPlayer({
       container: document.getElementById(this.props.id),
       live: true,
       video:{
-        url:url.replace('http','https'),
-        type:'customFlv',
-        customType:{
-          customFlv: function (video, player) {
-            const flvPlayer = window.flvjs.createPlayer({
-              isLive:true,
-              enableStashBuffer:false,
-              cors:true,
-              type: 'flv',
-              url: video.src
-            });
-            flvPlayer.attachMediaElement(video);
-            flvPlayer.load();
-            flvPlayer.play();
-          },
-        }
+        url:url.replace('http','https').replace('.flv','.m3u8'),
+        type:'hls',
       }
     })
+    dp.play()
   }
 
   render () {
