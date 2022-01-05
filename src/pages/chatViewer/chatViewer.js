@@ -9,6 +9,7 @@ import Axios from 'axios'
 import { Row, Col, message, Modal, Button, Input,Radio } from 'antd'
 import axios from 'axios'
 let num = 0;
+let maxChat = 100;
 
 
 let socket = null, socketTwo = null, move = false,offSetX = 0;
@@ -155,13 +156,16 @@ class ChatViewer extends React.PureComponent {
       obj.g = e.m.g
       obj.p = e.m.p
       obj.f = e.m.f || ''
-      obj.u = e.u
+      obj.u = e.i+'-'+e.u
       obj.giftMsg = '赠送了'
       obj.c = e.c
       obj.i = e.i
       obj.s = '0'
-
-      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+      let tempList = [...this.state.chatList, obj];
+      if(tempList.length>maxChat){
+        tempList.splice(0,tempList.length-maxChat)
+      }
+      this.setState({ chatList: tempList },_=>{
         this.singleMsg.scroll()
       })
     })
@@ -170,10 +174,14 @@ class ChatViewer extends React.PureComponent {
       obj.id = Math.random().toString().substr(2) + new Date().getTime()
       obj.g = _.msg
       obj.p = '0'
-      obj.u = _.user.username
+      obj.u = _.user.userId+'-'+_.user.username
       obj.c = _.user.level === '2' ? 2 : _.user.level === '3' ? 3 : 0
       obj.s = '1'
-      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+      let tempList = [...this.state.chatList, obj];
+      if(tempList.length>maxChat){
+        tempList.splice(0,tempList.length-maxChat)
+      }
+      this.setState({ chatList: tempList },_=>{
         this.singleMsg.scroll()
       })
     })
@@ -190,11 +198,15 @@ class ChatViewer extends React.PureComponent {
       obj.g = '一朵'
       obj.p = '1'
       obj.giftMsg = '送给老师'
-      obj.u = _.user.username
+      obj.u = _.user.userId+'-'+_.user.username
       obj.c = 0
       obj.s = '1'
       obj.f = '5'
-      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+      let tempList = [...this.state.chatList, obj];
+      if(tempList.length>maxChat){
+        tempList.splice(0,tempList.length-maxChat)
+      }
+      this.setState({ chatList: tempList },_=>{
         this.singleMsg.scroll()
       })
     })
@@ -204,11 +216,15 @@ class ChatViewer extends React.PureComponent {
       obj.g = _.type === 0 ? '老师好' : _.type === 1 ? '明白了' : '还不懂'
       obj.p = '1'
       obj.giftMsg = ''
-      obj.u = _.user.username
+      obj.u = _.user.userId+'-'+_.user.username
       obj.f = _.type === 0 ? 'lsh' : _.type === 1 ? 'mbl' : 'hbd'
       obj.c = 0
       obj.s = '1'
-      this.setState({ chatList: [...this.state.chatList, obj] },_=>{
+      let tempList = [...this.state.chatList, obj];
+      if(tempList.length>maxChat){
+        tempList.splice(0,tempList.length-maxChat)
+      }
+      this.setState({ chatList: tempList },_=>{
         this.singleMsg.scroll()
       })
     })

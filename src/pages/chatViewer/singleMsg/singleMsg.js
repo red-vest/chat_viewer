@@ -41,6 +41,7 @@ class SingleMsg extends React.PureComponent {
   }
 
   watchScroll (e) {
+    return
     let clientHeight = e.target.clientHeight,
             scrollTop = e.target.scrollTop,
             scrollHeight = e.target.scrollHeight
@@ -61,6 +62,7 @@ class SingleMsg extends React.PureComponent {
   }
 
   showUserTab (a, b) {
+    return
     console.log(a, b)
     this.setState({
       userName: a.u,
@@ -70,7 +72,7 @@ class SingleMsg extends React.PureComponent {
     })
   }
   StopSend(){
-    axios.get(`https://chat.xtjzx.cn/manager/ban?guid=${this.state.uid}&duration=${this.state.date*60}`).then(_=>{
+    axios.get(`https://chat.xtjzx.cn/manager/ban?guid=${this.state.uid}&duration=${this.state.date*60<=0?1:this.state.date*60}`).then(_=>{
       message.success('禁言成功')
       this.setState({date:1,top:9999,left:9999,stopMsg:false})
       console.log(_)
@@ -92,7 +94,7 @@ class SingleMsg extends React.PureComponent {
                   <div className={'btn'}>
                     <Button onClick={_ => this.setState({ stopMsg: !this.state.stopMsg })} type={'danger'}>{this.state.stopMsg?'取消':'禁言'}</Button>
                     {
-                      this.state.stopMsg ? <><InputNumber min={1} onStep={_ => this.setState({ date: _ })}
+                      this.state.stopMsg ? <><InputNumber min={0} onStep={_ => this.setState({ date: _ })}
                                                           onChange={_ => this.setState({ date: _ })}
                                                           value={this.state.date}/>分钟<Button onClick={this.StopSend} type={'primary'}>确定</Button></> : ''
                     }
