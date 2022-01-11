@@ -239,9 +239,9 @@ class ChatViewer extends React.PureComponent {
     this.setState({showStop:bool})
   }
   async getCourseList () {
-    let result = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list?course_status=1&is_close=1')
-    let resultT = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list?course_status=1&is_close=2')
-    let list = [...result.data.data, ...resultT.data.data]
+    let result = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list')
+    // let resultT = []
+    let list = [...result.data.data]
     list.forEach(item => {
       item.name = item.Id + '-' + item.CourseName
     })

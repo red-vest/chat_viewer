@@ -70,7 +70,7 @@ class SingleMsg extends React.PureComponent {
     })
   }
   StopSend(){
-    axios.get(`https://chat.xtjzx.cn/manager/ban?guid=${this.state.uid}&duration=${this.state.date*60<=0?4:this.state.date*60}`).then(_=>{
+    axios.get(`https://chat.xtjzx.cn/manager/ban?guid=${this.state.uid}&duration=${this.state.date*60<=0?3:this.state.date*60}`).then(_=>{
       message.success('禁言成功')
       this.setState({date:1,top:9999,left:9999,stopMsg:false})
       console.log(_)
