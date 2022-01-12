@@ -8,6 +8,7 @@ import PlayControl from './playControl/playControl'
 import Axios from 'axios'
 import { Row, Col, message, Modal, Button, Input,Radio } from 'antd'
 import axios from 'axios'
+const {TextArea} = Input;
 let num = 0;
 let maxChat = 100;
 
@@ -23,11 +24,14 @@ class ChatViewer extends React.PureComponent {
     super()
     this.state = {
       chatList: [],
+      inputMsg:'',
       count: 0,
       hot: 0,
+      lessonId:'',
       uid: '',
       oldCount: 0,
       oldHot: 0,
+      socket:undefined,
       mobile: '',
       pwd: '',
       courseList: [],
@@ -36,7 +40,7 @@ class ChatViewer extends React.PureComponent {
       loginVisible: false,
       avatar: '',
       width: '',
-      playWidth: 500,
+      playWidth: 550,
       add: false,
       notice:'',
       oldNotice:'',
@@ -87,12 +91,13 @@ class ChatViewer extends React.PureComponent {
         lessonId,
         uid,
         channel,
-        username: ''
+        username,
       }
     }
     if (socket !== null) {socket.close()}
     if (socketTwo !== null) {socketTwo.close()}
     socket = io(config.ioUrl, data)
+    this.setState({socket})
     socketTwo = io('https://wss.xintujing.cn/chat', {
       transports: ['websocket']
     })
@@ -313,6 +318,11 @@ class ChatViewer extends React.PureComponent {
   showLogin () {
     this.setState({ loginVisible: true })
   }
+  sendMsg(){
+    if(this.state.inputMsg==='') return;
+    socket.emit('msg', { g: this.state.inputMsg, p: '0' })
+    this.setState({inputMsg:''})
+  }
 
   async changeCourse (e) {
     let result = await Axios.post('https://api.xtjzx.cn/index', {
@@ -345,7 +355,7 @@ class ChatViewer extends React.PureComponent {
       variables: { lessonId, courseId: e.toString() },
     })
     await this.getNotice(e.toString())
-    this.setState({ liveUrl: url.data.data.data.getCourseVideo.courseLive.playUrl,courseId:e.toString() })
+    this.setState({lessonId, liveUrl: url.data.data.data.getCourseVideo.courseLive.playUrl,courseId:e.toString() })
     let data = url.data.data.data.getCourseVideo.courseLive
     this.init(e, lessonId, data.avChatRoomId, this.state.uid, this.state.username, data.channelId)
   }
@@ -371,7 +381,7 @@ class ChatViewer extends React.PureComponent {
   render () {
     return (
             <div className={'all'}>
-              <div className={'drag'} onMouseDown={this.startDrag.bind(this)}  style={{ left: this.state.playWidth + 'px' }}/>
+              {/*<div className={'drag'} onMouseDown={this.startDrag.bind(this)}  style={{ left: this.state.playWidth + 'px' }}/>*/}
               <div className={'chatBox'}>
                 <div className={'livePlay'} style={{ width: this.state.playWidth + 'px' }}>
                   <div className={'live'}>
@@ -381,7 +391,7 @@ class ChatViewer extends React.PureComponent {
                                uid={this.state.uid} selectLive={this.changeCourse}
                                hot={this.state.hot} num={this.state.count} courseList={this.state.courseList}/>
                 </div>
-                <div className={'chat'} style={{width:`calc(100% - ${this.state.playWidth+10}px)`}}>
+                <div className={'chat'} style={{width:`650px`}}>
                   {
                     this.state.showStop?<div onClick={this.resScroll} className={'stopScroll'}>滚动界面，聊天已暂停</div>:''
                   }
@@ -395,7 +405,11 @@ class ChatViewer extends React.PureComponent {
                     </div>
                   </div>
                   <div onClick={() => this.setState({ loginVisible: !this.state.loginVisible })} className={'other'}/>
-                  <SingleMsg scrollStop={this.scrollStop} onRef={this.msgRef} chatList={this.state.chatList}/>
+                  <SingleMsg lessonId={this.state.lessonId} scrollStop={this.scrollStop} onRef={this.msgRef} chatList={this.state.chatList}/>
+                  <div className={'msgSet'}>
+                    <TextArea placeholder={'输入内容'} style={{width:'550px'}} showCount onChange={_=>this.setState({inputMsg:_.target.value})} value={this.state.inputMsg} />
+                    <Button onClick={this.sendMsg.bind(this)} style={{marginTop:'5px'}} type="primary">发送</Button>
+                  </div>
                 </div>
               </div>
               <Modal

@@ -13,7 +13,8 @@ class PlayControl extends React.Component {
   constructor (props) {
     super()
     this.state = {
-      inputNotice:''
+      inputNotice:'',
+      inputMsg:''
     }
   }
 
@@ -79,6 +80,7 @@ class PlayControl extends React.Component {
                           <TextArea placeholder={'输入内容以更新新途径在线公告'} value={this.state.inputNotice} onChange={_=>this.setState({inputNotice:_.target.value})} showCount maxLength={200}/>
                           <Button onClick={this.setNotice.bind(this)} style={{marginTop:'5px'}} type="primary">更新公告</Button>
                         </div>
+
                       </>
               }
             </div>

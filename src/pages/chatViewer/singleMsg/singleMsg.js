@@ -2,8 +2,8 @@ import React from 'react'
 import './singleMsg.scss'
 import logo from '../../../image/18.png'
 import logoT from '../../../image/9.png'
-import { CloseCircleOutlined } from '@ant-design/icons'
-import { Button, InputNumber,message } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
+import { Button, InputNumber,Tooltip , message, Popover } from 'antd'
 import axios from 'axios'
 
 let lastScrollTop = 0, isScroll = true
@@ -12,11 +12,10 @@ class SingleMsg extends React.PureComponent {
   constructor (props) {
     super()
     this.state = {
-      top: 9999,
-      left: 9999,
       userName: '',
       uid: '',
-      date: 1,
+      date: 5,
+      visible: '',
       stopMsg: false,
     }
     this.StopSend = this.StopSend.bind(this)
@@ -63,51 +62,45 @@ class SingleMsg extends React.PureComponent {
 
   showUserTab (a, b) {
     this.setState({
+      visible:a.id,
       userName: a.u,
       uid: a.i,
-      top: b.clientY + 10,
-      left: b.nativeEvent.layerX + 10
     })
+    b.stopPropagation()
   }
-  StopSend(){
-    axios.get(`https://chat.xtjzx.cn/manager/ban?guid=${this.state.uid}&duration=${this.state.date*60<=0?3:this.state.date*60}`).then(_=>{
+  StopSend () {
+    axios.get(`https://chat.xtjzx.cn/manager/ban?less_id=${this.props.lessonId}&uid=${this.state.uid}&duration=${this.state.date * 60 <= 0 ? 3 : this.state.date * 60}`).then(_ => {
       message.success('禁言成功')
-      this.setState({date:1,top:9999,left:9999,stopMsg:false})
+      this.setState({ date: 1,visible:'', stopMsg: false })
       console.log(_)
     })
   }
 
   render () {
     const { chatList } = this.props
+    const {userName} = this.state
     return (
             <>
-              <div style={{ top: this.state.top, left: this.state.left }} className={'userTab'}>
-                <div className={'tabBox'}>
-                  <div onClick={_ => this.setState({ top: 9999, left: 9999 })} className={'close'}>
-                    <CloseCircleOutlined style={{ color: '#000000' }}/>
-                  </div>
-                  <div className={'userName'}>
-                    {this.state.userName}
-                  </div>
-                  <div className={'btn'}>
-                    <Button onClick={_ => this.setState({ stopMsg: !this.state.stopMsg })} type={'danger'}>{this.state.stopMsg?'取消':'禁言'}</Button>
-                    {
-                      this.state.stopMsg ? <><InputNumber min={0} onStep={_ => this.setState({ date: _ })}
-                                                          onChange={_ => this.setState({ date: _ })}
-                                                          value={this.state.date}/>分钟<Button onClick={this.StopSend} type={'primary'}>确定</Button></> : ''
-                    }
-                  </div>
-                </div>
-              </div>
-              <div onScroll={this.watchScroll.bind(this)} id={'msgList'} className={'list'}>
+              <div onScroll={this.watchScroll.bind(this)} onClick={_=>this.setState({visible:''})} id={'msgList'} className={'list'}>
                 {chatList.map(item => {
-                  return <div key={item.id} className={'singleMsg'}>
+                  return <div  key={item.id} className={'singleMsg'}>
                     <img alt={'logo'} className={'logo'} src={item.s === '0' ? logo : logoT}/>
                     {
-                      item.c > 0 ? <div
-                              className={`tag t${item.c}`}>{item.c === 1 ? '教师' : item.c === 2 ? '助教' : '客服'}</div> : ''
+                      item.c > 0 ?
+                              <div className={`tag t${item.c}`}>
+                                {item.c === 1 ? '教师' : item.c === 2 ? '助教' : '客服'}
+                              </div> : ''
                     }
-                    <p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.u}：</p>
+                    <Popover visible={this.state.visible===item.id}
+                              trigger="click"
+                              title={_=><>禁言<i style={{color:'blue',fontStyle:'normal'}}>{userName}</i></>}
+                              content={() => <div onClick={_=>_.stopPropagation()}><InputNumber style={{ width: '150px', marginRight: '10px' }} min={1}
+                                                           onStep={_ => this.setState({ date: _ })}
+                                                           onChange={_ => this.setState({ date: _ })}
+                                                           value={this.state.date} addonAfter="分钟"/>
+                                <Button onClick={this.StopSend} type={'primary'}>确定</Button> <Tooltip title="关闭窗口"><Button onClick={_=>this.setState({visible:''})} icon={<CloseOutlined />} /></Tooltip></div>}>
+                      <p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.u}：</p>
+                    </Popover>
                     <span className={'msg'}>{item.p === '1' ? item.giftMsg : ''}{item.g}</span>
                     {
                       item.p === '1' ? <img alt={'图片地址'} className={'gift'}
