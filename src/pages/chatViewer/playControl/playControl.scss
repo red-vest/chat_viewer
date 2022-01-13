@@ -5,10 +5,7 @@
     font-weight: bold;
     text-align: left;
   }
-  .noticeSet{
-    margin-top: 20px;
-    text-align: left;
-  }
+
   .logo{
     width: 25px;
     height: 25px;
@@ -23,9 +20,22 @@
     border-radius: 5px;
     background-color: #f5f5f5;
   }
+  .userInfo{
+    margin-bottom: 20px;
+    .avatar{
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+      margin-right: 10px;
+    }
+    .logout{
+      position: absolute;
+      right: 0;
+    }
+  }
   .liveSelect{
     user-select: none;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 }

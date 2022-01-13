@@ -2,11 +2,22 @@ import React from 'react'
 import './singleMsg.scss'
 import logo from '../../../image/18.png'
 import logoT from '../../../image/9.png'
-import { CloseOutlined } from '@ant-design/icons'
-import { Button, InputNumber,Tooltip , message, Popover } from 'antd'
+import { CloseOutlined,StopOutlined } from '@ant-design/icons'
+import { Button, InputNumber, Tooltip, message, Popover,Modal } from 'antd'
 import axios from 'axios'
 
 let lastScrollTop = 0, isScroll = true
+
+// let fn = () => {
+//   return (
+//           <div onClick={_ => _.stopPropagation()}><InputNumber style={{ width: '150px', marginRight: '10px' }} min={1}
+//                                                                onStep={_ => this.setState({ date: _ })}
+//                                                                onChange={_ => this.setState({ date: _ })}
+//                                                                value={this.state.date} addonAfter="分钟"/>
+//             <Button onClick={this.StopSend} type={'primary'}>确定</Button> <Tooltip title="关闭窗口"><Button
+//                     onClick={_ => this.setState({ visible: '' })} icon={<CloseOutlined/>}/></Tooltip></div>
+//   )
+// }
 
 class SingleMsg extends React.PureComponent {
   constructor (props) {
@@ -16,10 +27,13 @@ class SingleMsg extends React.PureComponent {
       uid: '',
       date: 5,
       visible: '',
+      showModal:false,
       stopMsg: false,
     }
     this.StopSend = this.StopSend.bind(this)
     this.showUserTab = this.showUserTab.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.handleOk = this.handleOk.bind(this)
   }
 
   componentDidMount () {
@@ -62,28 +76,36 @@ class SingleMsg extends React.PureComponent {
 
   showUserTab (a, b) {
     this.setState({
-      visible:a.id,
+      visible: a.id,
       userName: a.u,
       uid: a.i,
     })
     b.stopPropagation()
   }
+
   StopSend () {
-    axios.get(`https://chat.xtjzx.cn/manager/ban?less_id=${this.props.lessonId}&uid=${this.state.uid}&duration=${this.state.date * 60 <= 0 ? 3 : this.state.date * 60}`).then(_ => {
+    axios.get(`https://chat.xtjzx.cn/chat-manager/ban?less_id=${this.props.lessonId}&guid=${this.state.uid}&duration=${this.state.date * 60 <= 0 ? 3 : this.state.date * 60}`).then(_ => {
       message.success('禁言成功')
-      this.setState({ date: 1,visible:'', stopMsg: false })
+      this.setState({ date: 1, visible: '',showModal:false, stopMsg: false })
+      this.props.updateBanList()
       console.log(_)
     })
   }
+  handleOk(){
 
+  }
+  handleCancel(){
+    this.setState({showModal:false})
+  }
   render () {
     const { chatList } = this.props
-    const {userName} = this.state
+    const { userName } = this.state
     return (
             <>
-              <div onScroll={this.watchScroll.bind(this)} onClick={_=>this.setState({visible:''})} id={'msgList'} className={'list'}>
+              <div onScroll={this.watchScroll.bind(this)} onClick={_ => this.setState({ visible: '' })} id={'msgList'}
+                   className={'list'}>
                 {chatList.map(item => {
-                  return <div  key={item.id} className={'singleMsg'}>
+                  return <div key={item.id} className={'singleMsg'}>
                     <img alt={'logo'} className={'logo'} src={item.s === '0' ? logo : logoT}/>
                     {
                       item.c > 0 ?
@@ -91,14 +113,12 @@ class SingleMsg extends React.PureComponent {
                                 {item.c === 1 ? '教师' : item.c === 2 ? '助教' : '客服'}
                               </div> : ''
                     }
-                    <Popover visible={this.state.visible===item.id}
-                              trigger="click"
-                              title={_=><>禁言<i style={{color:'blue',fontStyle:'normal'}}>{userName}</i></>}
-                              content={() => <div onClick={_=>_.stopPropagation()}><InputNumber style={{ width: '150px', marginRight: '10px' }} min={1}
-                                                           onStep={_ => this.setState({ date: _ })}
-                                                           onChange={_ => this.setState({ date: _ })}
-                                                           value={this.state.date} addonAfter="分钟"/>
-                                <Button onClick={this.StopSend} type={'primary'}>确定</Button> <Tooltip title="关闭窗口"><Button onClick={_=>this.setState({visible:''})} icon={<CloseOutlined />} /></Tooltip></div>}>
+                    <Popover visible={this.state.visible === item.id}
+                             trigger="click"
+                             content={() => <div style={{display:'flex',flexDirection:'column'}}>
+                               <Button onClick={_=>this.setState({showModal:true})} style={{textAlign:'right'}} icon={<StopOutlined />} type="text">屏蔽</Button>
+                               <Button style={{textAlign:'right'}} type="text">回复</Button>
+                             </div>}>
                       <p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.u}：</p>
                     </Popover>
                     <span className={'msg'}>{item.p === '1' ? item.giftMsg : ''}{item.g}</span>
@@ -108,6 +128,12 @@ class SingleMsg extends React.PureComponent {
                     }
                   </div>
                 })}</div>
+              <Modal cancelText={'取消'} okText={'确定'} title={'屏蔽'+userName} visible={this.state.showModal} onOk={this.StopSend} onCancel={this.handleCancel}>
+                <div onClick={_ => _.stopPropagation()}><InputNumber addonBefore={'该用户将在'} style={{ textAlign:'center' }} min={1}
+                                                                                onStep={_ => this.setState({ date: _ })}
+                                                                               onChange={_ => this.setState({ date: _ })}
+                                                                                value={this.state.date} addonAfter="分钟内，无法参与互动"/></div>
+              </Modal>
             </>
     )
   }

@@ -1,14 +1,16 @@
 import React from 'react'
 import './livePlay.scss'
 import DPlayer from 'dplayer'
-let dp = undefined;
-class LivePlay extends React.PureComponent{
+
+let dp = undefined
+
+class LivePlay extends React.PureComponent {
   constructor (props) {
-    super();
+    super()
     this.play = this.play.bind(this)
   }
 
-  play(url){
+  play (url) {
     // dp = new DPlayer({
     //   container: document.getElementById(this.props.id),
     //   live: true,
@@ -34,22 +36,22 @@ class LivePlay extends React.PureComponent{
     dp = new DPlayer({
       container: document.getElementById(this.props.id),
       live: true,
-      video:{
-        url:url.replace('http','https').replace('.flv','.m3u8'),
-        type:'hls',
+      video: {
+        url: url.replace('http', 'https').replace('.flv', '.m3u8'),
+        type: 'hls',
       }
     })
     dp.play()
   }
 
   render () {
-    const {id,liveUrl} = this.props;
-    if(liveUrl===undefined||''){
-      try{dp.close()}catch (e) {}
-    }else {
+    const { id, liveUrl } = this.props
+    if (liveUrl === '') {
+      try {dp.destroy()} catch (e) {}
+    } else {
       this.play(liveUrl)
     }
-    return(
+    return (
             <div className={'dplayer'} id={id}/>
     )
   }

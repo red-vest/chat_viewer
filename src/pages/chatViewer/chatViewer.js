@@ -6,14 +6,15 @@ import SingleMsg from './singleMsg/singleMsg'
 import LivePlay from './livePlay/livePlay'
 import PlayControl from './playControl/playControl'
 import Axios from 'axios'
-import { Row, Col, message, Modal, Button, Input,Radio } from 'antd'
+import { Row, Col, message, Modal, Button, Input, Radio, List, Typography, Divider, Switch } from 'antd'
 import axios from 'axios'
-const {TextArea} = Input;
-let num = 0;
-let maxChat = 100;
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
+const { TextArea } = Input
+let num = 0
+let maxChat = 100
 
-let socket = null, socketTwo = null, move = false,offSetX = 0;
+let socket = null, socketTwo = null, move = false, offSetX = 0
 
 function gql (query) {
   return query[0]
@@ -24,27 +25,30 @@ class ChatViewer extends React.PureComponent {
     super()
     this.state = {
       chatList: [],
-      inputMsg:'',
+      banList:[],
+      inputMsg: '',
       count: 0,
       hot: 0,
-      lessonId:'',
+      lessonId: '',
       uid: '',
       oldCount: 0,
       oldHot: 0,
-      socket:undefined,
+      liveUrl: '',
+      socket: undefined,
       mobile: '',
       pwd: '',
       courseList: [],
-      showStop:false,
+      showStop: false,
       username: '',
       loginVisible: false,
       avatar: '',
       width: '',
-      playWidth: 550,
+      playWidth: 400,
       add: false,
-      notice:'',
-      oldNotice:'',
-      selectNotice:'1'
+      notice: '',
+      allBanState:false,
+      oldNotice: '',
+      selectNotice: '1'
     }
     this.changeCourse = this.changeCourse.bind(this)
     this.init = this.init.bind(this)
@@ -56,6 +60,8 @@ class ChatViewer extends React.PureComponent {
     this.msgRef = this.msgRef.bind(this)
     this.scrollStop = this.scrollStop.bind(this)
     this.resScroll = this.resScroll.bind(this)
+    this.getBanList = this.getBanList.bind(this)
+    this.setAllBan = this.setAllBan.bind(this)
   }
 
   componentDidMount () {
@@ -68,17 +74,19 @@ class ChatViewer extends React.PureComponent {
     window.addEventListener('resize', _ => {
       this.setState({ width: document.body.offsetWidth })
     })
-    document.addEventListener('mouseup',_=>{
+    document.addEventListener('mouseup', _ => {
       this.endDrag(_)
     })
-    document.addEventListener('mousemove',_=>{
+    document.addEventListener('mousemove', _ => {
       this.drag(_)
     })
     this.getCourseList()
   }
-  msgRef(ref){
+
+  msgRef (ref) {
     this.singleMsg = ref
   }
+
   init (courseId, lessonId, channel, uid, username, channelId) {
     const data = {
       forceNew: true,
@@ -97,7 +105,7 @@ class ChatViewer extends React.PureComponent {
     if (socket !== null) {socket.close()}
     if (socketTwo !== null) {socketTwo.close()}
     socket = io(config.ioUrl, data)
-    this.setState({socket})
+    this.setState({ socket })
     socketTwo = io('https://wss.xintujing.cn/chat', {
       transports: ['websocket']
     })
@@ -109,8 +117,8 @@ class ChatViewer extends React.PureComponent {
         level: '4'
       }
       socketTwo.emit('login', charRoomLoginInfo)
-      socketTwo.on('login',_=>{
-        if(num<=0){
+      socketTwo.on('login', _ => {
+        if (num <= 0) {
           socketTwo.emit('heat')
           socketTwo.emit('received message')
           socketTwo.emit('receive flower')
@@ -118,7 +126,7 @@ class ChatViewer extends React.PureComponent {
           socketTwo.emit('get announcement')
           socketTwo.emit('get banned time')
           socketTwo.emit('get question')
-          num+=1
+          num += 1
         }
       })
     })
@@ -129,7 +137,7 @@ class ChatViewer extends React.PureComponent {
       console.log(_)
     })
     socket.on('notify', _ => {
-      this.setState({notice:_})
+      this.setState({ notice: _ })
     })
     socket.on('connect_error', _ => {
       console.log(_)
@@ -161,16 +169,16 @@ class ChatViewer extends React.PureComponent {
       obj.g = e.m.g
       obj.p = e.m.p
       obj.f = e.m.f || ''
-      obj.u = e.i+'-'+e.u
+      obj.u = e.i + '-' + e.u
       obj.giftMsg = '赠送了'
       obj.c = e.c
       obj.i = e.i
       obj.s = '0'
-      let tempList = [...this.state.chatList, obj];
-      if(tempList.length>maxChat){
-        tempList.splice(0,tempList.length-maxChat)
+      let tempList = [...this.state.chatList, obj]
+      if (tempList.length > maxChat) {
+        tempList.splice(0, tempList.length - maxChat)
       }
-      this.setState({ chatList: tempList },_=>{
+      this.setState({ chatList: tempList }, _ => {
         this.singleMsg.scroll()
       })
     })
@@ -179,22 +187,22 @@ class ChatViewer extends React.PureComponent {
       obj.id = Math.random().toString().substr(2) + new Date().getTime()
       obj.g = _.msg
       obj.p = '0'
-      obj.u = _.user.userId+'-'+_.user.username
+      obj.u = _.user.userId + '-' + _.user.username
       obj.c = _.user.level === '2' ? 2 : _.user.level === '3' ? 3 : 0
       obj.s = '1'
-      let tempList = [...this.state.chatList, obj];
-      if(tempList.length>maxChat){
-        tempList.splice(0,tempList.length-maxChat)
+      let tempList = [...this.state.chatList, obj]
+      if (tempList.length > maxChat) {
+        tempList.splice(0, tempList.length - maxChat)
       }
-      this.setState({ chatList: tempList },_=>{
+      this.setState({ chatList: tempList }, _ => {
         this.singleMsg.scroll()
       })
     })
-    socketTwo.on('get announcement',_=>{
-      this.setState({oldNotice:_.msg})
+    socketTwo.on('get announcement', _ => {
+      this.setState({ oldNotice: _.msg })
     })
-    socketTwo.on('receive announcement',_=>{
-      this.setState({oldNotice:_.msg})
+    socketTwo.on('receive announcement', _ => {
+      this.setState({ oldNotice: _.msg })
     })
 
     socketTwo.on('receive flower', _ => {
@@ -203,15 +211,15 @@ class ChatViewer extends React.PureComponent {
       obj.g = '一朵'
       obj.p = '1'
       obj.giftMsg = '送给老师'
-      obj.u = _.user.userId+'-'+_.user.username
+      obj.u = _.user.userId + '-' + _.user.username
       obj.c = 0
       obj.s = '1'
       obj.f = '5'
-      let tempList = [...this.state.chatList, obj];
-      if(tempList.length>maxChat){
-        tempList.splice(0,tempList.length-maxChat)
+      let tempList = [...this.state.chatList, obj]
+      if (tempList.length > maxChat) {
+        tempList.splice(0, tempList.length - maxChat)
       }
-      this.setState({ chatList: tempList },_=>{
+      this.setState({ chatList: tempList }, _ => {
         this.singleMsg.scroll()
       })
     })
@@ -221,15 +229,15 @@ class ChatViewer extends React.PureComponent {
       obj.g = _.type === 0 ? '老师好' : _.type === 1 ? '明白了' : '还不懂'
       obj.p = '1'
       obj.giftMsg = ''
-      obj.u = _.user.userId+'-'+_.user.username
+      obj.u = _.user.userId + '-' + _.user.username
       obj.f = _.type === 0 ? 'lsh' : _.type === 1 ? 'mbl' : 'hbd'
       obj.c = 0
       obj.s = '1'
-      let tempList = [...this.state.chatList, obj];
-      if(tempList.length>maxChat){
-        tempList.splice(0,tempList.length-maxChat)
+      let tempList = [...this.state.chatList, obj]
+      if (tempList.length > maxChat) {
+        tempList.splice(0, tempList.length - maxChat)
       }
-      this.setState({ chatList: tempList },_=>{
+      this.setState({ chatList: tempList }, _ => {
         this.singleMsg.scroll()
       })
     })
@@ -240,9 +248,11 @@ class ChatViewer extends React.PureComponent {
       this.setState({ oldCount: _ })
     })
   }
-  scrollStop(bool){
-    this.setState({showStop:bool})
+
+  scrollStop (bool) {
+    this.setState({ showStop: bool })
   }
+
   async getCourseList () {
     let result = await Axios.get('https://api.xtjzx.cn/course_manager/api/course/list')
     // let resultT = []
@@ -253,22 +263,21 @@ class ChatViewer extends React.PureComponent {
     this.setState({ courseList: list })
     return ''
   }
-
-  async getNotice(id=''){
-    let result = await axios.post('https://api.xtjzx.cn/index',{
-      operationName:'CourseNoticeInfo',
+  async getNotice (id = '') {
+    let result = await axios.post('https://api.xtjzx.cn/index', {
+      operationName: 'CourseNoticeInfo',
       query: gql`
-        query CourseNoticeInfo($id:Long){
-            CourseNoticeInfo(input: {id: $id}){
-                noticeInfo{
-                    content
-                }
-            }
-        }
+          query CourseNoticeInfo($id:Long){
+              CourseNoticeInfo(input: {id: $id}){
+                  noticeInfo{
+                      content
+                  }
+              }
+          }
       `,
       variables: { id }
     })
-    this.setState({notice:result.data.data.data.CourseNoticeInfo.noticeInfo.content})
+    this.setState({ notice: result.data.data.data.CourseNoticeInfo.noticeInfo.content })
   }
 
   async login (mobile = this.state.mobile, pwd = this.state.pwd) {
@@ -318,10 +327,11 @@ class ChatViewer extends React.PureComponent {
   showLogin () {
     this.setState({ loginVisible: true })
   }
-  sendMsg(){
-    if(this.state.inputMsg==='') return;
+
+  sendMsg () {
+    if (this.state.inputMsg === '') return
     socket.emit('msg', { g: this.state.inputMsg, p: '0' })
-    this.setState({inputMsg:''})
+    this.setState({ inputMsg: '' })
   }
 
   async changeCourse (e) {
@@ -346,6 +356,9 @@ class ChatViewer extends React.PureComponent {
     })
     if (lessonId === 0) {
       message.info('该课程当前没有直播')
+      this.setState({ liveUrl: '', chatList: [] })
+      socket.close()
+      socketTwo.close()
       return
     }
     let url = await Axios.post('https://api.xtjzx.cn/index', {
@@ -355,8 +368,10 @@ class ChatViewer extends React.PureComponent {
       variables: { lessonId, courseId: e.toString() },
     })
     await this.getNotice(e.toString())
-    this.setState({lessonId, liveUrl: url.data.data.data.getCourseVideo.courseLive.playUrl,courseId:e.toString() })
     let data = url.data.data.data.getCourseVideo.courseLive
+    this.setState({ lessonId,channelId:data.avChatRoomId, liveUrl: url.data.data.data.getCourseVideo.courseLive.playUrl, courseId: e.toString() })
+    this.getBanState(data.avChatRoomId)
+    this.getBanList(lessonId)
     this.init(e, lessonId, data.avChatRoomId, this.state.uid, this.state.username, data.channelId)
   }
 
@@ -364,21 +379,45 @@ class ChatViewer extends React.PureComponent {
     move = true
     offSetX = e.nativeEvent.offsetX
   }
-  resScroll(){
+
+  resScroll () {
     this.singleMsg.resScroll()
   }
+
   endDrag () {
     move = false
   }
-
+  async getBanList(lessonId=this.state.lessonId){
+    let result = await axios.get('https://chat.xtjzx.cn/chat-manager/list?less_id='+lessonId)
+    console.log(result.data.data)
+  }
+  async unBan(){
+    axios.get(`https://chat.xtjzx.cn/chat-manager/unban?less_id=${this.state.lessonId}&guid=${this.state.uid}`).then(_ => {
+      message.success('取消成功')
+      this.getBanList()
+    })
+  }
+  async setAllBan(bool){
+    if(this.state.channelId===undefined) return;
+    let url = bool?'https://chat.xtjzx.cn/chat-manager/channel-ban?channel=':'https://chat.xtjzx.cn/chat-manager/channel-unban?channel='
+    await axios.get(url+this.state.channelId)
+    message.success(`${bool?'禁言成功':'解除禁言成功'}`)
+    await this.getBanState(this.state.channelId)
+  }
+  async getBanState(channelId){
+    if(channelId===undefined)return;
+    let result = await axios.get('https://chat.xtjzx.cn/chat-manager/channel-status?channel='+channelId)
+    this.setState({allBanState:result.data.data!==null})
+  }
   drag (e) {
     if (move) {
-      let pageX = e.pageX;
-      this.setState({playWidth:pageX - offSetX})
+      let pageX = e.pageX
+      this.setState({ playWidth: pageX - offSetX })
     }
   }
 
   render () {
+
     return (
             <div className={'all'}>
               {/*<div className={'drag'} onMouseDown={this.startDrag.bind(this)}  style={{ left: this.state.playWidth + 'px' }}/>*/}
@@ -387,28 +426,56 @@ class ChatViewer extends React.PureComponent {
                   <div className={'live'}>
                     <LivePlay id={'courseOne'} liveUrl={this.state.liveUrl}/>
                   </div>
-                  <PlayControl id={this.state.courseId} oldHot={this.state.oldHot} oldCount={this.state.oldCount} showLogin={this.showLogin}
+
+                  <PlayControl logout={this.logout} id={this.state.courseId} oldHot={this.state.oldHot}
+                               avatar={this.state.avatar} nickName={this.state.username} oldCount={this.state.oldCount}
+                               showLogin={this.showLogin}
                                uid={this.state.uid} selectLive={this.changeCourse}
                                hot={this.state.hot} num={this.state.count} courseList={this.state.courseList}/>
+                  <div className={'noticeSet'}>
+                    <h3>禁言设置</h3>
+                    <div style={{color:'red',fontSize:'16px',display:'inline-block',marginRight:'5px'}}>当前课程用户禁止发言</div>
+                    <Switch
+                            checked={this.state.allBanState}
+                            onChange={e=>this.setAllBan(e)}
+                            checkedChildren={<CheckOutlined />}
+                            unCheckedChildren={<CloseOutlined />}
+                    />
+                  </div>
                 </div>
-                <div className={'chat'} style={{width:`650px`}}>
+                <div className={'chat'} style={{ width: `650px` }}>
                   {
-                    this.state.showStop?<div onClick={this.resScroll} className={'stopScroll'}>滚动界面，聊天已暂停</div>:''
+                    this.state.showStop ? <div onClick={this.resScroll} className={'stopScroll'}>滚动界面，聊天已暂停</div> : ''
                   }
                   <div className={'gg'}>
-                    <Radio.Group  defaultValue='1' size={'small'} onChange={_=>this.setState({selectNotice:_.target.value})}>
-                      <Radio.Button value='1'>新途径在线</Radio.Button>
-                      <Radio.Button value='2'>新途径教育</Radio.Button>
+                    <Radio.Group defaultValue="1" size={'small'}
+                                 onChange={_ => this.setState({ selectNotice: _.target.value })}>
+                      <Radio.Button value="1">新途径在线</Radio.Button>
+                      <Radio.Button value="2">新途径教育</Radio.Button>
                     </Radio.Group>
                     <div className={'notice'}>
-                      {this.state.selectNotice==='1'?this.state.notice:this.state.oldNotice}
+                      {this.state.selectNotice === '1' ? this.state.notice : this.state.oldNotice}
                     </div>
                   </div>
-                  <div onClick={() => this.setState({ loginVisible: !this.state.loginVisible })} className={'other'}/>
-                  <SingleMsg lessonId={this.state.lessonId} scrollStop={this.scrollStop} onRef={this.msgRef} chatList={this.state.chatList}/>
+                  {/*<div onClick={() => this.setState({ loginVisible: !this.state.loginVisible })} className={'other'}/>*/}
+                  <SingleMsg updateBanList={this.getBanList} lessonId={this.state.lessonId} scrollStop={this.scrollStop} onRef={this.msgRef}
+                             chatList={this.state.chatList}/>
                   <div className={'msgSet'}>
-                    <TextArea placeholder={'输入内容'} style={{width:'550px'}} showCount onChange={_=>this.setState({inputMsg:_.target.value})} value={this.state.inputMsg} />
-                    <Button onClick={this.sendMsg.bind(this)} style={{marginTop:'5px'}} type="primary">发送</Button>
+                    <TextArea placeholder={'输入内容'} style={{ width: '550px' }} showCount
+                              onChange={_ => this.setState({ inputMsg: _.target.value })} value={this.state.inputMsg}/>
+                    <Button onClick={this.sendMsg.bind(this)} style={{ marginTop: '5px' }} type="primary">发送</Button>
+                  </div>
+                </div>
+                <div className={'blockList'}>
+                  <div className={'b-list'}>
+                    <Divider orientation="left">当前课程禁言用户列表</Divider>
+                    <List
+                            style={{background:'#ffffff'}}
+                            size="small"
+                            bordered={false}
+                            dataSource={this.state.banList}
+                            renderItem={item => <List.Item>{item}</List.Item>}
+                    />
                   </div>
                 </div>
               </div>
@@ -434,12 +501,7 @@ class ChatViewer extends React.PureComponent {
                         onChange={e => this.setState({ pwd: e.target.value })} value={this.state.pwd}
                         allowClear
                         type={'password'}/></Col>
-                </Row> : <div className={'userInfo'}>
-                  <Row align={'middle'}>
-                    <Col><img className={'avatar'} src={this.state.avatar}
-                              alt={'用户头像'}/></Col><Col>{this.state.username}</Col>
-                  </Row>
-                </div>
+                </Row> : ''
               }
               </Modal>
             </div>
