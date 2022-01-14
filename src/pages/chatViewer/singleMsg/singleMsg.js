@@ -88,7 +88,6 @@ class SingleMsg extends React.PureComponent {
       message.success('禁言成功')
       this.setState({ date: 1, visible: '',showModal:false, stopMsg: false })
       this.props.updateBanList()
-      console.log(_)
     })
   }
   handleOk(){
@@ -117,7 +116,7 @@ class SingleMsg extends React.PureComponent {
                              trigger="click"
                              content={() => <div style={{display:'flex',flexDirection:'column'}}>
                                <Button onClick={_=>this.setState({showModal:true})} style={{textAlign:'right'}} icon={<StopOutlined />} type="text">屏蔽</Button>
-                               <Button style={{textAlign:'right'}} type="text">回复</Button>
+                               <Button onClick={_=>message.info('功能完善中')} style={{textAlign:'right'}} type="text">回复</Button>
                              </div>}>
                       <p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.u}：</p>
                     </Popover>
@@ -132,7 +131,7 @@ class SingleMsg extends React.PureComponent {
                 <div onClick={_ => _.stopPropagation()}><InputNumber addonBefore={'该用户将在'} style={{ textAlign:'center' }} min={1}
                                                                                 onStep={_ => this.setState({ date: _ })}
                                                                                onChange={_ => this.setState({ date: _ })}
-                                                                                value={this.state.date} addonAfter="分钟内，无法参与互动"/></div>
+                                                                                value={this.state.date} addonAfter="分钟内，无法参与当前直播课程的互动"/></div>
               </Modal>
             </>
     )

@@ -4,6 +4,7 @@ import { Button, Col, Row, Select, Input, message,Switch } from 'antd'
 import { FireTwoTone, SmileTwoTone,CheckOutlined,CloseOutlined } from '@ant-design/icons'
 import logo from '../../../image/18.png'
 import logoT from '../../../image/9.png'
+import config from '../../../config'
 import axios from 'axios'
 
 const { Option } = Select
@@ -86,15 +87,16 @@ class PlayControl extends React.Component {
                           <div className={'hot'}><SmileTwoTone/>人数：{oldCount}</div>
                         </Col>
                         </Row>
-
-                        <div className={'noticeSet'}>
-                          <h3>公告设置</h3>
-                          <TextArea placeholder={'输入内容以更新新途径在线公告'} value={this.state.inputNotice}
-                                    onChange={_ => this.setState({ inputNotice: _.target.value })} showCount
-                                    maxLength={200}/>
-                          <Button onClick={this.setNotice.bind(this)} style={{ marginTop: '5px' }}
-                                  type="primary">更新公告</Button>
-                        </div>
+                        {
+                          config.mode===1?<div className={'noticeSet'}>
+                            <h3>公告设置</h3>
+                            <TextArea placeholder={'输入内容以更新新途径在线公告'} value={this.state.inputNotice}
+                                      onChange={_ => this.setState({ inputNotice: _.target.value })} showCount
+                                      maxLength={200}/>
+                            <Button onClick={this.setNotice.bind(this)} style={{ marginTop: '5px' }}
+                                    type="primary">更新公告</Button>
+                          </div>:''
+                        }
                       </>
               }
             </div>

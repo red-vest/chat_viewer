@@ -4,7 +4,6 @@
   height: 100vh;
   position: relative;
   flex-direction: column;
-  align-items: center;
   .drag{
     position: absolute;
     width: 20px;
@@ -91,8 +90,8 @@
         position: relative;
         width: 100%;
         box-sizing: border-box;
-        padding: 5px;
-        height: 100px;
+        padding: 10px;
+        height: 110px;
         background-color: #f1f1f1;
         border-radius: 5px;
         margin-bottom: 10px;
@@ -107,7 +106,6 @@
         }
         .notice{
           width: 100%;
-          font-weight: bold;
           height: calc(100% - 30px);
           overflow: hidden;
           overflow-y: auto;
@@ -156,6 +154,13 @@
         border-radius: 5px;
         transition: all .1s;
         background: rgba(241, 241, 241, 0.65);
+        .singleBanUser{
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
       }
     }
   }
