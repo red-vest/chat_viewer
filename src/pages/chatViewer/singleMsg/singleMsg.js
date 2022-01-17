@@ -122,7 +122,8 @@ class SingleMsg extends React.PureComponent {
                                <Button onClick={_=>this.setState({showModal:true})} style={{textAlign:'right'}} icon={<StopOutlined />} type="text">屏蔽</Button>
                                <Button onClick={_=>this.props.setReply(item)} style={{textAlign:'right'}} type="text">回复</Button>
                              </div>}>
-                      <p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.u}：</p>
+                      {item.s==='1'?<p className={'userName'}>{item.i+'-'+item.u}：</p>
+                              :<p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.i+'-'+item.u}：</p>}
                     </Popover>
                     {
                       item.to!==null?<span style={{color:'blue'}}>@{item.to.u}</span>:''

@@ -174,7 +174,7 @@ class ChatViewer extends React.PureComponent {
       obj.p = e.m.p
       obj.f = e.m.f || ''
       obj.to = e.m.t||null
-      obj.u = e.i + '-' + e.u
+      obj.u = e.u
       obj.giftMsg = '赠送了'
       obj.c = e.c
       obj.i = e.i
@@ -192,7 +192,8 @@ class ChatViewer extends React.PureComponent {
       obj.id = Math.random().toString().substr(2) + new Date().getTime()
       obj.g = _.msg
       obj.p = '0'
-      obj.u = _.user.userId + '-' + _.user.username
+      obj.i=  obj.i = _.user.userId
+      obj.u = _.user.username
       obj.c = _.user.level === '2' ? 2 : _.user.level === '3' ? 3 : 0
       obj.s = '1'
       let tempList = [...this.state.chatList, obj]
@@ -216,7 +217,8 @@ class ChatViewer extends React.PureComponent {
       obj.g = '一朵'
       obj.p = '1'
       obj.giftMsg = '送给老师'
-      obj.u = _.user.userId + '-' + _.user.username
+      obj.i = _.user.userId
+      obj.u = _.user.username
       obj.c = 0
       obj.s = '1'
       obj.f = '5'
@@ -234,7 +236,8 @@ class ChatViewer extends React.PureComponent {
       obj.g = _.type === 0 ? '老师好' : _.type === 1 ? '明白了' : '还不懂'
       obj.p = '1'
       obj.giftMsg = ''
-      obj.u = _.user.userId + '-' + _.user.username
+      obj.i = _.user.userId
+      obj.u = _.user.username
       obj.f = _.type === 0 ? 'lsh' : _.type === 1 ? 'mbl' : 'hbd'
       obj.c = 0
       obj.s = '1'
