@@ -75,6 +75,10 @@ class SingleMsg extends React.PureComponent {
   }
 
   showUserTab (a, b) {
+    if (a.s==='1'){
+      message.info('近支持新途径在线')
+      return
+    }
     this.setState({
       visible: a.id,
       userName: a.u,
@@ -116,10 +120,13 @@ class SingleMsg extends React.PureComponent {
                              trigger="click"
                              content={() => <div style={{display:'flex',flexDirection:'column'}}>
                                <Button onClick={_=>this.setState({showModal:true})} style={{textAlign:'right'}} icon={<StopOutlined />} type="text">屏蔽</Button>
-                               <Button onClick={_=>message.info('功能完善中')} style={{textAlign:'right'}} type="text">回复</Button>
+                               <Button onClick={_=>this.props.setReply(item)} style={{textAlign:'right'}} type="text">回复</Button>
                              </div>}>
                       <p onClick={_ => this.showUserTab(item, _)} className={'userName'}>{item.u}：</p>
                     </Popover>
+                    {
+                      item.to!==null?<span style={{color:'blue'}}>@{item.to.u}</span>:''
+                    }
                     <span className={'msg'}>{item.p === '1' ? item.giftMsg : ''}{item.g}</span>
                     {
                       item.p === '1' ? <img alt={'图片地址'} className={'gift'}

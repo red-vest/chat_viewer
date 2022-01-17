@@ -14,6 +14,7 @@ const { TextArea } = Input
 let num = 0
 let banListInter = undefined;
 let maxChat = 100
+let replyUser = null;
 
 let socket = null, socketTwo = null, move = false, offSetX = 0
 
@@ -64,6 +65,7 @@ class ChatViewer extends React.PureComponent {
     this.getBanList = this.getBanList.bind(this)
     this.setAllBan = this.setAllBan.bind(this)
     this.unBan = this.unBan.bind(this)
+    this.setReply = this.setReply.bind(this)
   }
 
   componentDidMount () {
@@ -171,6 +173,7 @@ class ChatViewer extends React.PureComponent {
       obj.g = e.m.g
       obj.p = e.m.p
       obj.f = e.m.f || ''
+      obj.to = e.m.t||null
       obj.u = e.i + '-' + e.u
       obj.giftMsg = '赠送了'
       obj.c = e.c
@@ -333,7 +336,17 @@ class ChatViewer extends React.PureComponent {
 
   sendMsg () {
     if (this.state.inputMsg === '') return
-    socket.emit('msg', { g: this.state.inputMsg, p: '0' })
+    if(replyUser===null){
+      socket.emit('msg', { g: this.state.inputMsg, p: '0' })
+    }else {
+      let msg = {
+        g: this.state.inputMsg.replace('@'+replyUser['u'],''),
+        t:replyUser,
+        p: '0'
+      }
+      socket.emit('msg', msg)
+      replyUser = null
+    }
     this.setState({ inputMsg: '' })
   }
 
@@ -413,7 +426,11 @@ class ChatViewer extends React.PureComponent {
       this.getBanList()
     })
   }
-
+  setReply(data){
+    replyUser = data;
+    let u = data.u;
+    this.setState({inputMsg:`@${u} `})
+  }
   async setAllBan (bool) {
     if (this.state.channelId === undefined) return
     let url = bool ? 'https://chat.xtjzx.cn/chat-manager/channel-ban?channel=' : 'https://chat.xtjzx.cn/chat-manager/channel-unban?channel='
@@ -483,14 +500,26 @@ class ChatViewer extends React.PureComponent {
                       {this.state.selectNotice === '1' ? this.state.notice : this.state.oldNotice}
                     </div>
                   </div>
-                  <SingleMsg updateBanList={this.getBanList} lessonId={this.state.lessonId} scrollStop={this.scrollStop}
+                  <SingleMsg setReply={this.setReply} updateBanList={this.getBanList} lessonId={this.state.lessonId} scrollStop={this.scrollStop}
                              onRef={this.msgRef}
                              chatList={this.state.chatList}/>
                   {
                     config.mode===1?
                       this.state.lessonId===''?'':<div className={'msgSet'}>
                         <TextArea placeholder={'输入内容'} style={{ width: '550px' }} showCount
-                                  onChange={_ => this.setState({ inputMsg: _.target.value })} value={this.state.inputMsg}/>
+                                  onChange={_ => {
+                                    if(replyUser!==null){
+                                      let arr = _.target.value.split(' ')
+                                      if('@'+replyUser.u!==arr[0]){
+                                        replyUser = null;
+                                        this.setState({inputMsg: _.target.value.replace(arr[0],'')})
+                                      }else {
+                                        this.setState({ inputMsg: _.target.value })
+                                      }
+                                    }else {
+                                      this.setState({ inputMsg: _.target.value })
+                                    }
+                                  }} value={this.state.inputMsg}/>
                         <Button onClick={this.sendMsg.bind(this)} style={{ marginTop: '5px' }} type="primary">发送</Button>
                       </div>:''
 
