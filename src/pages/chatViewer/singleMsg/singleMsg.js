@@ -5,6 +5,7 @@ import logoT from '../../../image/9.png'
 import { CloseOutlined,StopOutlined } from '@ant-design/icons'
 import { Button, InputNumber, Tooltip, message, Popover,Modal } from 'antd'
 import axios from 'axios'
+import config from '../../../config'
 
 let lastScrollTop = 0, isScroll = true
 
@@ -75,6 +76,7 @@ class SingleMsg extends React.PureComponent {
   }
 
   showUserTab (a, b) {
+    if(config.mode===2)return
     if (a.s==='1'){
       message.info('近支持新途径在线')
       return
