@@ -459,6 +459,8 @@ class ChatViewer extends React.PureComponent {
 
     return (
             <div style={{alignItems:config.mode===1?'center':''}} className={'all'}>
+              {config.mode===1?'':
+                      <div className={'drag'} onMouseDown={this.startDrag.bind(this)}  style={{ left: this.state.playWidth + 'px' }}/>}
               <div className={'chatBox'}>
                 <div className={'livePlay'} style={{ width: this.state.playWidth + 'px' }}>
                   <div className={'live'}>
@@ -489,7 +491,7 @@ class ChatViewer extends React.PureComponent {
                     </div>:''
                   }
                 </div>
-                <div className={'chat'} style={{ width:config.mode===1?`650px`:`calc(100% - 400px)`}}>
+                <div className={'chat'} style={{ width:config.mode===1?`650px`:`calc(100% - ${this.state.playWidth}px)`}}>
                   {
                     this.state.showStop ? <div onClick={this.resScroll} className={'stopScroll'}>滚动界面，聊天已暂停</div> : ''
                   }

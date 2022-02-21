@@ -16,10 +16,11 @@
     top: 50%;
     transform: translateY(-50%) translateX(-50%);
     z-index: 999;
-    transition: all .1s;
+    transition: all .25s;
   }
   .drag:hover{
-    background-color: #f1f1f1;
+    background-color: #fdfdfd;
+    box-shadow: 1px 5px 9px 0px #979797;
   }
   .add{
     width: 100%;
